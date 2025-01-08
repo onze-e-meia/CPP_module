@@ -1,0 +1,13 @@
+# dir
+obj/
+trash/
+
+# File extensions
+*.o
+*.d
+*.out
+
+# Binarys
+color
+
+# Other files
