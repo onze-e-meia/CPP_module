@@ -1,0 +1,10 @@
+# dir
+obj/
+trash/
+
+# Files
+*.o
+*.d
+megaphone
+crapy_phonebook
+account

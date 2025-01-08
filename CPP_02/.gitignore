@@ -1,0 +1,10 @@
+# dir
+obj/
+trash/
+
+# Files
+*.replace
+*.o
+*.d
+fixed
+bsp

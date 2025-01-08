@@ -1,0 +1,13 @@
+# dir
+obj/
+trash/
+
+# Files
+*.o
+*.d
+*.out
+Polymorphism
+Fire
+Abstract
+FF42
+color.cpp

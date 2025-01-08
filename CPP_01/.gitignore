@@ -1,0 +1,15 @@
+# dir
+obj/
+trash/
+
+# Files
+*.replace
+*.o
+*.d
+brainz
+moar
+brain
+violence
+replace
+harl
+harlFilter
