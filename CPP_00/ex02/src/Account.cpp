@@ -6,7 +6,7 @@
 /*   By: tforster <tfforster@student.42sp.org.br    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/10 19:33:18 by tforster          #+#    #+#             */
-/*   Updated: 2024/10/12 16:25:46 by tforster         ###   ########.fr       */
+/*   Updated: 2025/01/08 13:37:37 by tforster         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,8 +82,7 @@ void	Account::displayStatus(void) const {
 		<< std::endl;
 }
 
-void	Account::makeDeposit(int deposit)
-{
+void	Account::makeDeposit(int deposit) {
 	_totalAmount += deposit;
 	_totalNbDeposits++;
 	_nbDeposits++;
@@ -99,8 +98,7 @@ void	Account::makeDeposit(int deposit)
 		<< std::endl;
 }
 
-bool	Account::makeWithdrawal(int withdrawal)
-{
+bool	Account::makeWithdrawal(int withdrawal) {
 	_displayTimestamp();
 	if (checkAmount() > withdrawal) {
 		_totalAmount -= withdrawal;
@@ -117,7 +115,7 @@ bool	Account::makeWithdrawal(int withdrawal)
 			<< "withdrawal:" L_BLU << withdrawal << RST << ";";
 		_amount -= withdrawal;
 		std::cout << "amount:" L_BLU << _amount << RST  << ";"
-			<< "withdrawals:" L_BLU << _nbDeposits << RST
+			<< "nb_withdrawals:" L_BLU << _nbDeposits << RST
 			<< std::endl;
 		return (true);
 	}
