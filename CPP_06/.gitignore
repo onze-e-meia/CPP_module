@@ -1,6 +1,7 @@
 # dir
 obj/
 trash/
+ex0X/
 
 # File extensions
 *.o
@@ -8,10 +9,7 @@ trash/
 *.out
 
 # Binarys
-Mommy
-maggots
-form28B
-coffee_making
+convert
 
 # Other files
 color.cpp

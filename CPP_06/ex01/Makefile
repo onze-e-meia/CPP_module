@@ -6,7 +6,7 @@
 #    By: tforster <tfforster@student.42sp.org.br    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/09/17 16:29:50 by tforster          #+#    #+#              #
-#    Updated: 2025/01/11 18:58:46 by tforster         ###   ########.fr        #
+#    Updated: 2025/01/11 20:47:14 by tforster         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -14,7 +14,7 @@
 #    Name                                                                      #
 # **************************************************************************** #
 
-NAME	:=	convert
+NAME	:=	serialize
 
 # **************************************************************************** #
 #    Sources                                                                   #
@@ -24,7 +24,8 @@ SRC_DIR	:=	src
 
 SRC		:=	\
 	main.cpp \
-	ScalarConverter.cpp
+	Serializer.cpp \
+	DataClass.cpp
 
 SRC		:= $(addprefix $(SRC_DIR)/, $(SRC))
 
