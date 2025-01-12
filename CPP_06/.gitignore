@@ -10,7 +10,8 @@ ex0X/
 
 # Binarys
 convert
+serialize
+identify
 
 # Other files
 color.cpp
-*_shrubbery

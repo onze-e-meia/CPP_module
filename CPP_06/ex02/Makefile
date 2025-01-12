@@ -6,7 +6,7 @@
 #    By: tforster <tfforster@student.42sp.org.br    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/09/17 16:29:50 by tforster          #+#    #+#              #
-#    Updated: 2025/01/12 15:19:13 by tforster         ###   ########.fr        #
+#    Updated: 2025/01/12 19:11:16 by tforster         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -14,7 +14,7 @@
 #    Name                                                                      #
 # **************************************************************************** #
 
-NAME	:=	serialize
+NAME	:=	identify
 
 # **************************************************************************** #
 #    Sources                                                                   #
@@ -24,8 +24,9 @@ SRC_DIR	:=	src
 
 SRC		:=	\
 	main.cpp \
-	Serializer.cpp \
-	Data.cpp
+	Base.cpp \
+	generate.cpp \
+	identify.cpp
 
 SRC		:= $(addprefix $(SRC_DIR)/, $(SRC))
 

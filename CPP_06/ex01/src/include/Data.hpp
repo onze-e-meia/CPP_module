@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   DataClass.hpp                                      :+:      :+:    :+:   */
+/*   Data.hpp                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: tforster <tfforster@student.42sp.org.br    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
@@ -16,18 +16,18 @@
 #include <ostream>
 #include <string>
 
-class DataClass {
+class Data {
 	private:
 		int			_someInt;
 		float		_someFloat;
 		std::string	_someText;
 
 	public:
-		DataClass(void);
-		DataClass(int someInt, float someFloat, std::string someText);
-		DataClass(const DataClass &other);
-		DataClass &operator=(const DataClass &other);
-		~DataClass(void);
+		Data(void);
+		Data(int someInt, float someFloat, const std::string &someText);
+		Data(const Data &other);
+		Data &operator=(const Data &other);
+		~Data(void);
 
 		void		setInt(int someInt);
 		void		setFloat(float someFloat);
@@ -38,6 +38,6 @@ class DataClass {
 		std::string	getText(void) const;
 };
 
-std::ostream &operator<<(std::ostream &os, const DataClass &src);
+std::ostream &operator<<(std::ostream &os, const Data &src);
 
 #endif

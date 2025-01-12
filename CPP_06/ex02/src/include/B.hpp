@@ -1,32 +1,20 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   Serializer.hpp                                     :+:      :+:    :+:   */
+/*   B.hpp                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: tforster <tfforster@student.42sp.org.br    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/01/11 20:12:44 by tforster          #+#    #+#             */
-/*   Updated: 2025/01/12 17:22:46 by tforster         ###   ########.fr       */
+/*   Created: 2025/01/12 18:02:22 by tforster          #+#    #+#             */
+/*   Updated: 2025/01/12 18:11:11 by tforster         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef SERIALIZER_HPP
-#define SERIALIZER_HPP
+#ifndef B_HPP
+# define B_HPP
 
-#include <stdint.h>
+#include "Base.hpp"
 
-class	Data;
-
-class	Serializer {
-	private:
-		Serializer(void);
-		Serializer(const Serializer &other);
-		Serializer &operator=(const Serializer &other);
-		~Serializer(void);
-
-	public:
-		static uintptr_t	serialize(Data *ptr);
-		static Data			*deserializer(uintptr_t raw);
-};
+class B : public Base {};
 
 #endif

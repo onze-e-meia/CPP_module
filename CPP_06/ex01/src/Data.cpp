@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   DataClass.cpp                                      :+:      :+:    :+:   */
+/*   Data.cpp                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: tforster <tfforster@student.42sp.org.br    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
@@ -10,21 +10,17 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "include/DataClass.hpp"
+#include "include/Data.hpp"
 
-DataClass::DataClass(void): _someInt(0), _someFloat(0), _someText("") {}
+Data::Data(void): _someInt(0), _someFloat(0.0f), _someText("Empty") {}
 
-DataClass::DataClass(int someInt, float someFloat, std::string someText):
-	_someInt(someInt),
-	_someFloat(someFloat),
-	_someText(someText) {}
+Data::Data(int someInt, float someFloat, const std::string &someText):
+	_someInt(someInt), _someFloat(someFloat), _someText(someText) {}
 
-DataClass::DataClass(const DataClass &other):
-	_someInt(other._someInt),
-	_someFloat(other._someFloat),
-	_someText(other._someText) {}
+Data::Data(const Data &other):
+	_someInt(other._someInt), _someFloat(other._someFloat), _someText(other._someText) {}
 
-DataClass &DataClass::operator=(const DataClass &other) {
+Data &Data::operator=(const Data &other) {
 	if (this != &other) {
 		_someInt = other._someInt;
 		_someFloat = other._someFloat;
@@ -33,35 +29,34 @@ DataClass &DataClass::operator=(const DataClass &other) {
 	return (*this);
 }
 
-DataClass::~DataClass(void) {}
+Data::~Data(void) {}
 
-void DataClass::setInt(int someInt) {
+void	Data::setInt(int someInt) {
 	_someInt = someInt;
 }
 
-void DataClass::setFloat(float someFloat) {
+void	Data::setFloat(float someFloat) {
 	_someFloat = someFloat;
 }
 
-void DataClass::setText(std::string someText) {
+void	Data::setText(std::string someText) {
 	_someText = someText;
 }
 
-int DataClass::getInt(void) const {
+int	Data::getInt(void) const {
 	return (_someInt);
 }
 
-float DataClass::getFloat(void) const {
+float	Data::getFloat(void) const {
 	return (_someFloat);
 }
 
-std::string DataClass::getText(void) const {
+std::string Data::getText(void) const {
 	return (_someText);
 }
 
-
-std::ostream &operator<<(std::ostream &os, const DataClass &data) {
-	return os << "[DATA] int: " << data.getInt() <<
+std::ostream &operator<<(std::ostream &os, const Data &data) {
+	return (os << "[DATA] {int: " << data.getInt() <<
 		" float: " << data.getFloat() <<
-		" text:" << data.getText();
+		" text: " << data.getText() << "}");
 }

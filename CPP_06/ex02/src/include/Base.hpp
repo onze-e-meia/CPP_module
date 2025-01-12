@@ -1,32 +1,30 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   Serializer.hpp                                     :+:      :+:    :+:   */
+/*   Base.hpp                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: tforster <tfforster@student.42sp.org.br    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/01/11 20:12:44 by tforster          #+#    #+#             */
-/*   Updated: 2025/01/12 17:22:46 by tforster         ###   ########.fr       */
+/*   Created: 2025/01/12 18:01:57 by tforster          #+#    #+#             */
+/*   Updated: 2025/01/12 19:11:39 by tforster         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef SERIALIZER_HPP
-#define SERIALIZER_HPP
+#ifndef BASE_HPP
+# define BASE_HPP
 
-#include <stdint.h>
-
-class	Data;
-
-class	Serializer {
-	private:
-		Serializer(void);
-		Serializer(const Serializer &other);
-		Serializer &operator=(const Serializer &other);
-		~Serializer(void);
-
+class	Base {
 	public:
-		static uintptr_t	serialize(Data *ptr);
-		static Data			*deserializer(uintptr_t raw);
+		virtual	~Base(void);
 };
+
+template<typename T>
+Base* createDerived() {
+	return (new T());
+}
+
+Base	*generate(void);
+void	identify(Base *p);
+void	identify(Base &p);
 
 #endif
