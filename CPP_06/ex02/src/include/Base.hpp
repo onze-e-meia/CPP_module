@@ -6,7 +6,7 @@
 /*   By: tforster <tfforster@student.42sp.org.br    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/12 18:01:57 by tforster          #+#    #+#             */
-/*   Updated: 2025/01/12 19:11:39 by tforster         ###   ########.fr       */
+/*   Updated: 2025/01/14 14:26:01 by tforster         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ class	Base {
 };
 
 template<typename T>
-Base* createDerived() {
+Base *createDerived(void) {
 	return (new T());
 }
 

@@ -6,55 +6,55 @@
 /*   By: tforster <tfforster@student.42sp.org.br    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/12 18:55:52 by tforster          #+#    #+#             */
-/*   Updated: 2025/01/12 19:13:57 by tforster         ###   ########.fr       */
+/*   Updated: 2025/01/14 16:37:44 by tforster         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include <cstddef>
+#include <iostream>
+#include <cassert>
 #include "include/Base.hpp"
 #include "include/A.hpp"
 #include "include/B.hpp"
 #include "include/C.hpp"
-#include <iostream>
 
-void identify(Base *base) {
-
-	if (dynamic_cast<A *>(base))
-		std::cout << "A" << std::endl;
-	else if (dynamic_cast<B *>(base))
-		std::cout << "B" << std::endl;
-	else if (dynamic_cast<C *>(base))
-		std::cout << "C" << std::endl;
-	else if (dynamic_cast<Base *>(base))
-		std::cout << "Base" << std::endl;
-	else
-	 	std::cout << "NULL" << std::endl;
+template <typename T>
+bool isType(Base *base) {
+	return (dynamic_cast<T*>(base) != NULL);
 }
 
-void identify(Base &base) {
-
+template <typename T>
+bool tryCast(Base& base) {
 	try {
-		A a = dynamic_cast<A &>(base);
-		std::cout << "A" << std::endl;
-		return ;
-	} catch (std::exception &exception) {}
+		(void) dynamic_cast<T&>(base);
+		return (true);
+	} catch (std::exception &exception) {
+		return (false);
+	}
+}
 
-	try {
-		B b = dynamic_cast<B &>(base);
-		std::cout << "B" << std::endl;
-		return ;
-	} catch (std::exception &exception) {}
+void identify(Base *base) {
+	typedef bool	(*TypeCheckFunc)(Base*);
+	TypeCheckFunc	typeCheckers[] = {&isType<A>, &isType<B>, &isType<C>};
+	const char		typeNames[] = "ABC";
 
-	try {
-		C c = dynamic_cast<C &>(base);
-		std::cout << "C" << std::endl;
-		return ;
-	} catch (std::exception &exception) {}
-
-	try {
-		Base ref = dynamic_cast<Base &>(base);
+	for (std::size_t i = 0; i < 3; i++)
+		if (typeCheckers[i](base)) {
+			std::cout << typeNames[i];
+			return;
+		}
+	if (dynamic_cast<Base *>(base))
 		std::cout << "Base" << std::endl;
-		return ;
-	} catch (std::exception &exception) {}
+	else
+	 	std::cout << "NULL" << std::endl;}
 
-	std::cout << "NULL" << std::endl;
+void identify(Base &base) {
+	if (tryCast<A>(base))
+		std::cout << "A";
+	else if (tryCast<B>(base))
+		std::cout << "B";
+	else if (tryCast<C>(base))
+		std::cout << "C";
+	else
+		std::cout << "Base";
 }
