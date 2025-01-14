@@ -6,7 +6,7 @@
 /*   By: tforster <tfforster@student.42sp.org.br    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/11 20:47:30 by tforster          #+#    #+#             */
-/*   Updated: 2025/01/12 17:45:12 by tforster         ###   ########.fr       */
+/*   Updated: 2025/01/14 18:16:37 by tforster         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ int	main(void) {
 	data->setFloat(42.42f);
 	data->setText("Some 42 data.");
 	SHOWDATA("Original Data: ", data);
-	SHOWDATA("Deserialized Data: ", data);
+	SHOWDATA("Deserialized Data: ", des_data);
 
 	std::cout << ENDL COP "Atribute Deserialized Data to a new Data" RENDL;
 	Data		*new_data;

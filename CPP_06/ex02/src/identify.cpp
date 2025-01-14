@@ -6,32 +6,16 @@
 /*   By: tforster <tfforster@student.42sp.org.br    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/12 18:55:52 by tforster          #+#    #+#             */
-/*   Updated: 2025/01/14 16:37:44 by tforster         ###   ########.fr       */
+/*   Updated: 2025/01/14 17:04:33 by tforster         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <cstddef>
 #include <iostream>
-#include <cassert>
 #include "include/Base.hpp"
 #include "include/A.hpp"
 #include "include/B.hpp"
 #include "include/C.hpp"
 
-template <typename T>
-bool isType(Base *base) {
-	return (dynamic_cast<T*>(base) != NULL);
-}
-
-template <typename T>
-bool tryCast(Base& base) {
-	try {
-		(void) dynamic_cast<T&>(base);
-		return (true);
-	} catch (std::exception &exception) {
-		return (false);
-	}
-}
 
 void identify(Base *base) {
 	typedef bool	(*TypeCheckFunc)(Base*);

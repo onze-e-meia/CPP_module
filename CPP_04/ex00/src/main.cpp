@@ -21,8 +21,6 @@
 
 int	main(void) {
 	system("clear");
-	// int *leak = new int[42];
-	// leak[0] = 0;
 
 	std::cout << BOLD U_LINE COP "Test with Class Animal" RST ENDL;
 	std::cout << COP "Call default " ITALIC "constructor:" RST ENDL;
