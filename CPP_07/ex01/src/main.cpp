@@ -6,7 +6,7 @@
 /*   By: tforster <tfforster@student.42sp.org.br    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/15 19:02:13 by tforster          #+#    #+#             */
-/*   Updated: 2025/01/16 16:09:44 by tforster         ###   ########.fr       */
+/*   Updated: 2025/01/16 19:35:56 by tforster         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,8 @@
 #include "include/iter.hpp"
 #include "lib/color.hpp"
 
-#define TEST_OUT(test, type) std::cout << ENDL COP << test << " " BOLD << type << RENDL;
+#define TEST_OUT(test, type)	std::cout << ENDL COP << test << " " BOLD << type << RENDL
+#define ERR		L_RED "Error: " RST
 
 typedef void (*func_any)(int);
 
@@ -40,28 +41,29 @@ int	main(void) {
 	try {
 		iter(array_null, 4, sum_one<int>);
 	} catch (const std::invalid_argument &e) {
-		std::cerr << e.what() << ENDL;
+		std::cerr << ERR << e.what() << ENDL;
 	}
 
 	TEST_OUT("Test iter with", "size -1");
 	try {
 		iter(array, -1, sum_one<int>);
 	} catch (const std::invalid_argument &e) {
-		std::cerr << e.what() << ENDL;
+		std::cerr << ERR << e.what() << ENDL;
 	}
 
 	TEST_OUT("Test iter with", "size 0");
 	try {
 		iter(array, 0, sum_one<int>);
+		iter(array, 0, print<int>);
 	} catch (const std::invalid_argument &e) {
-		std::cerr << e.what() << ENDL;
+		std::cerr << ERR << e.what() << ENDL;
 	}
 
 	TEST_OUT("Test iter with", "NULL function");
 	try {
 		iter(array, 4, func_null);
 	} catch (const std::invalid_argument &e) {
-		std::cerr << e.what() << ENDL;
+		std::cerr << ERR << e.what() << ENDL;
 	}
 
 	return (EXIT_SUCCESS);
