@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   Array.cpp                                          :+:      :+:    :+:   */
+/*   Array.tpp                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: tforster <tfforster@student.42sp.org.br    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/16 16:30:55 by tforster          #+#    #+#             */
-/*   Updated: 2025/01/16 19:38:30 by tforster         ###   ########.fr       */
+/*   Updated: 2025/01/17 16:24:37 by tforster         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,7 @@ std::size_t Array<Type>::size() const {
 }
 
 template<typename Type>
-Type const &Array<Type>::operator[](const std::size_t &index) const {
+const Type &Array<Type>::operator[](const std::size_t &index) const {
 	if (index < _size)
 		return _elements[index];
 	throw (std::out_of_range("Index out of range"));
