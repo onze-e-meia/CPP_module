@@ -1,0 +1,16 @@
+# dir
+obj/
+trash/
+
+# File extensions
+*.o
+*.d
+*.out
+
+# Binarys
+easy_find
+iter
+array
+
+# Other files
+color.cpp
