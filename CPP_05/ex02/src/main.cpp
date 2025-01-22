@@ -6,7 +6,7 @@
 /*   By: tforster <tfforster@student.42sp.org.br    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/09 16:32:04 by tforster          #+#    #+#             */
-/*   Updated: 2024/12/16 15:45:33 by tforster         ###   ########.fr       */
+/*   Updated: 2025/01/22 14:27:07 by tforster         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,6 @@
 #include <ctime>
 #include <string>
 #include <iostream>
-// #include <exception>
 #include "include/Bureaucrat.hpp"
 #include "include/AForm.hpp"
 #include "include/ShrubberyCreationForm.hpp"

@@ -6,7 +6,7 @@
 /*   By: tforster <tfforster@student.42sp.org.br    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/16 16:17:53 by tforster          #+#    #+#             */
-/*   Updated: 2025/01/16 19:38:45 by tforster         ###   ########.fr       */
+/*   Updated: 2025/01/22 16:11:47 by tforster         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,8 +30,8 @@ class Array {
 
 		std::size_t	size() const;
 
-		const Type &operator[](const std::size_t &index) const;
-		Type  &operator[](const std::size_t &index);
+		const Type	&operator[](const std::size_t &index) const;
+		Type		&operator[](const std::size_t &index);
 };
 
 template <typename T>
