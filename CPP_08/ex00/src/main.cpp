@@ -6,7 +6,7 @@
 /*   By: tforster <tfforster@student.42sp.org.br    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/16 16:16:48 by tforster          #+#    #+#             */
-/*   Updated: 2025/01/21 16:57:18 by tforster         ###   ########.fr       */
+/*   Updated: 2025/01/21 17:04:26 by tforster         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,12 +15,10 @@
 #include <vector>
 #include <deque>
 #include <list>
-
 #include "include/easyfind.hpp"
 #include "lib/color.hpp"
 
 #define PRINT_TEST(test)	std::cout << ENDL COP << test << RENDL
-
 
 int	main(void) {
 	std::system("clear");
