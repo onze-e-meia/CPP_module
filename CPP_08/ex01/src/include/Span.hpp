@@ -6,7 +6,7 @@
 /*   By: tforster <tfforster@student.42sp.org.br    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/20 20:24:16 by tforster          #+#    #+#             */
-/*   Updated: 2025/01/22 18:22:17 by tforster         ###   ########.fr       */
+/*   Updated: 2025/01/23 16:28:52 by tforster         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,6 @@ class	Span {
 		std::vector<int>	_vector;
 		unsigned int		_size;
 
-
 	public:
 		Span(void);
 		Span(int size);
@@ -34,12 +33,13 @@ class	Span {
 		void	addNumber(int integer);
 		void	randomFill(void);
 
-		unsigned int				size() const;
-		unsigned int				max_size() const;
+		unsigned int							size() const;
+		unsigned int							max_size() const;
+		Span									sort(void) const;
 		const std::vector<int>::const_iterator	begin() const;
 		const std::vector<int>::const_iterator	end() const;
-		std::vector<int>::iterator	begin();
-		std::vector<int>::iterator	end();
+		std::vector<int>::iterator				begin();
+		std::vector<int>::iterator				end();
 
 		const int	&operator[](const std::size_t &index) const;
 		int			&operator[](const std::size_t &index);

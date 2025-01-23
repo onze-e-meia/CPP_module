@@ -6,25 +6,23 @@
 /*   By: tforster <tfforster@student.42sp.org.br    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/20 20:31:01 by tforster          #+#    #+#             */
-/*   Updated: 2025/01/22 20:13:11 by tforster         ###   ########.fr       */
+/*   Updated: 2025/01/23 16:29:17 by tforster         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <climits>
+#include <cmath>
 #include <cstddef>
 #include <cstdlib>
-// #include <limits>
 #include <stdexcept>
-#include <string>
 #include <sstream>
-// #include <iostream>
 #include <vector>
 #include <algorithm>
 #include "include/Span.hpp"
 #include "lib/color.hpp"
 
-
 static int randomInt(int size) {
+	size *= 5;
 	return (-size + std::rand() % (2 * size + 1));
 }
 
@@ -35,13 +33,14 @@ Span::Span(void):
 Span::Span(const int size):
 	_vector(0),
 	_size(size) {
+		if (size < 0)
+			throw std::invalid_argument(L_RED "Error: " RST "Span size can't be less then zero.");
 		_vector.reserve(_size);
 }
 
 Span::Span(const Span &other):
 	_vector(other._vector),
 	_size(other._size) {}
-
 
 Span &Span::operator=(const Span &other) {
 	if (this != &other) {
@@ -59,8 +58,17 @@ int	Span::shortestSpan(void) const {
 		oss << L_RED "Error: " RST "Size is less than 2, can't find shortest span";
 		throw (std::out_of_range(oss.str()));
 	}
-
-	return (0);
+	std::vector<int>			sorted(_vector);
+	std::sort(sorted.begin(), sorted.end());
+	std::vector<int>::iterator	it = sorted.begin();
+	std::vector<int>::iterator	end = sorted.end();
+	int	span = INT_MAX;
+	while ((it + 1) != end) {
+		if (*(it + 1) - *it < span)
+			span = *(it + 1) - *it;
+		it++;
+	}
+	return (std::abs(span));
 }
 
 int	Span::longestSpan(void) const {
@@ -69,9 +77,10 @@ int	Span::longestSpan(void) const {
 		oss << L_RED "Error: " RST "Size is less than 2, can't find longest span";
 		throw (std::out_of_range(oss.str()));
 	}
-	std::vector<int>	sorted(_vector);
-	std::sort(sorted.begin(), sorted.end());
-	return (sorted.back() - sorted.front());
+	int min = *std::min_element(_vector.begin(), _vector.end());
+	int max = *std::max_element(_vector.begin(), _vector.end());
+
+	return (std::abs(max - min));
 }
 
 void	Span::addNumber(int integer) {
@@ -93,6 +102,21 @@ void	Span::randomFill(void) {
 		_vector.push_back(randomInt(_size));
 	}
 }
+
+Span	Span::sort(void) const {
+	if (this->_vector.size() < 2) {
+		std::ostringstream	oss;
+		oss << L_RED "Error: " RST "Size is less than 2, can't sort";
+		throw (std::out_of_range(oss.str()));
+	}
+	Span				span;
+	std::vector<int>	sorted = _vector;
+
+	std::sort(sorted.begin(), sorted.end());
+	span._vector = sorted;
+	return (span);
+}
+
 
 unsigned int	Span::size() const {
 	return (_vector.size());
@@ -121,13 +145,13 @@ std::vector<int>::iterator	Span::end() {
 const int &Span::operator[](const std::size_t &index) const {
 	if (index < _size)
 		return _vector[index];
-	throw (std::out_of_range("Index out of range"));
+	throw (std::out_of_range(L_RED "Error: " RST "Index out of range"));
 }
 
 int &Span::operator[](const std::size_t &index) {
 	if (index < _size)
 		return _vector[index];
-	throw (std::out_of_range("Index out of range"));
+	throw (std::out_of_range(L_RED "Error: " RST "Index out of range"));
 }
 
 std::ostream &operator<<(std::ostream &os, Span &span) {

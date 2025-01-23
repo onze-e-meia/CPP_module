@@ -6,7 +6,7 @@
 /*   By: tforster <tfforster@student.42sp.org.br    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/16 16:16:48 by tforster          #+#    #+#             */
-/*   Updated: 2025/01/22 20:09:33 by tforster         ###   ########.fr       */
+/*   Updated: 2025/01/23 16:27:26 by tforster         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,11 +15,10 @@
 #include <ctime>
 #include <exception>
 #include <iostream>
-#include <stdexcept>
 #include "include/Span.hpp"
 #include "lib/color.hpp"
 
-#define PRINT_TEST(test)	std::cout << ENDL COP << test << RENDL
+#define PRINT_TEST(test)	std::cout << ENDL BOLD COP << test << RENDL
 
 int	main(void) {
 	std::system("clear");
@@ -34,9 +33,9 @@ int	main(void) {
 
 	PRINT_TEST("Make Span of size 0:");
 	Span	span_0;
-	std::cout << D_BLU "SIZE: " RST << span_0.size() << ENDL;
-	std::cout << D_BLU "MAX_SIZE: " RST << span_0.max_size() << ENDL;
-	std::cout << "Try to check position 0:" ENDL;
+	std::cout << D_BLU "SIZE: " RST << span_0.size() << ENDL
+		<< D_BLU "MAX_SIZE: " RST << span_0.max_size() << ENDL
+		<< "Try to check position 0:" ENDL;
 	try {
 		std::cout << D_BLU "Number at [0]: " RST << span_0[0] << ENDL;
 	} catch (std::exception &e) {
@@ -50,104 +49,92 @@ int	main(void) {
 	}
 	std::cout << D_BLU "Span: " RST << span_0 << ENDL;
 
-
 	PRINT_TEST("Make Span of size 1:");
 	Span	span_1(1);
-	std::cout << D_BLU "SIZE: " RST << span_1.size() << ENDL;
-	std::cout << D_BLU "MAX_SIZE: " RST << span_1.max_size() << ENDL;
-	std::cout << "Try to add a two numbers (99 and 1):" ENDL;
+	std::cout << D_BLU "SIZE: " RST << span_1.size() << ENDL
+		<< D_BLU "MAX_SIZE: " RST << span_1.max_size() << ENDL
+		<< "Try to add a two numbers (99 and 1):" ENDL;
 	span_1.addNumber(99);
 	try {
 		span_1.addNumber(1);
 	} catch (const std::exception &e) {
 		std::cerr << e.what() << ENDL;
 	}
-	std::cout << D_BLU "Span: " RST << span_1 << ENDL;
-	std::cout << D_BLU "SIZE: " RST << span_1.size() << ENDL;
-	std::cout << "Try to get shortest span:" ENDL;
+	std::cout << D_BLU "Span: " RST << span_1 << ENDL
+		<< D_BLU "SIZE: " RST << span_1.size() << ENDL
+		<< "Try to get shortest span:" ENDL;
 	try {
 		span_1.shortestSpan();
 	} catch (const std::exception &e) {
 		std::cerr << e.what() << ENDL;
 	}
-		std::cout << "Try to get longest span:" ENDL;
+	std::cout << "Try to get longest span:" ENDL;
 	try {
 		span_1.longestSpan();
 	} catch (const std::exception &e) {
 		std::cerr << e.what() << ENDL;
 	}
+	std::cout << "Try to sort:" ENDL;
+	try {
+		span_1.sort();
+	} catch (const std::exception &e) {
+		std::cerr << e.what() << ENDL;
+	}
 
-	PRINT_TEST("Make Span of size 5:");
-	Span	span_5(10);
-	std::cout << D_BLU "SIZE: " RST << span_5.size() << ENDL;
-	std::cout << D_BLU "MAX_SIZE: " RST << span_5.max_size() << ENDL;
-	std::cout << "Fill Span with random numbers:" ENDL;
-	span_5.randomFill();
-	std::cout << D_BLU "Span: " RST << span_5 << ENDL;
-	std::cout << D_BLU "SIZE: " RST << span_5.size() << ENDL;
-	std::cout << "Get shortest span:" ENDL;
+	PRINT_TEST("Make Span of size 2:");
+	Span	span_2(2);
+	std::cout << D_BLU "SIZE: " RST << span_2.size() << ENDL
+		<< D_BLU "MAX_SIZE: " RST << span_2.max_size() << ENDL
+		<< "Fill Span with random numbers:" ENDL;
+	span_2.randomFill();
+	std::cout << D_BLU "Span       : " RST << span_2 << ENDL
+		<< D_BLU "Sorted Span: " RST << span_2.sort() << ENDL
+		<< D_BLU "SIZE: " RST << span_2.size() << ENDL;
+	std::cout << "Try to add a number (99):" ENDL;
+	try {
+		span_2.addNumber(99);
+	} catch (const std::exception &e) {
+		std::cerr << e.what() << ENDL;
+	}
+	std::cout << "Try to check position 2:" ENDL;
+	try {
+		std::cout << D_BLU "Number at [2]: " RST << span_2[2] << ENDL;
+	} catch (std::exception &e) {
+		std::cerr << e.what() << ENDL;
+	}
+	std::cout << "Get shortest span:" ENDL
+		<< D_BLU "Shortest: " RST << span_2.shortestSpan() << ENDL
+		<< "Get longest span:" ENDL
+		<< D_BLU "Longest: " RST << span_2.longestSpan() << ENDL;
 
-	std::cout << "Get longest span:" ENDL;
-	std::cout << D_BLU "Longest: " RST << span_5.longestSpan() << ENDL;
+	PRINT_TEST("Make Span of size 10:");
+	Span	span_10(10);
+	std::cout << D_BLU "SIZE: " RST << span_10.size() << ENDL
+		<< D_BLU "MAX_SIZE: " RST << span_10.max_size() << ENDL
+		<< "Fill Span with random numbers:" ENDL;
+	span_10.randomFill();
+	const Span	const_span(span_10);
+	std::cout << D_BLU "Span       : " RST << span_10 << ENDL
+		<< D_BLU "Sorted Span: " RST << span_10.sort() << ENDL
+		<< D_BLU "SIZE: " RST << span_10.size() << ENDL
+		<< "Get shortest span:" ENDL
+		<< D_BLU "Shortest: " RST << span_10.shortestSpan() << ENDL
+		<< "Get longest span:" ENDL
+		<< D_BLU "Longest: " RST << span_10.longestSpan() << ENDL
+		<< "Test with const Span:" ENDL
+		<< D_BLU "Span       : " RST << const_span << ENDL;
 
-
-
-
-
-
-
-	// std::cout << "AT 0: " << span_1[0] << ENDL;
-	// std::cout << "AT 1: " << span_1[1] << ENDL;
-	// std::cout << "SIZE: " << span_1.size() << ENDL;
-	// std::cout << "SIZE: " << span_1.max_size() << ENDL;
-
-	// for (int i = 0 ; i < 20; i++) {
-	// 	std::cout << std::rand() << ", ";
-	// }
-	// std::cout << ENDL "MAX_RAND:" << RAND_MAX << DENDL;
-	// std::cout << ENDL "INT_MAX:" << INT_MAX << DENDL;
-
-	// Span	s10(10);
-	// s10.randomFill();
-	// std::cout << s10 << ENDL;
-	// // s10.randomFill();
-
-	// const Span s_const = s10;
-	// std::cout << s_const << ENDL;
-
-
-
-
-
-
-
-	// std::cout << "AT 3: " << span_1._vector.at(3) << ENDL;
-
-
-	// Span	s1(10);
-	// s1._vector[1] = 10;
-	// s1._vector[2] = 20;
-	// s1._vector[9] = 90;
-	// s1._vector[10] = 100;
-	// s1._vector[11] = 110;
-	// Span	s2(s1);
-	// s2._vector[3] = 30;
-	// s2._vector[4] = 40;
-	// s1._vector[0] = 99;
-	// std::cout << "SIZE: " << s1._vector.size() << ENDL;
-	// std::cout << "AT 0: " << s1._vector.at(0) << ENDL;
-	// std::cout << "AT 1: " << s1._vector.at(1) << ENDL;
-	// std::cout << "AT 2: " << s1._vector.at(2) << ENDL;
-	// std::cout << "AT 3: " << s1._vector.at(3) << ENDL;
-	// std::cout << "AT 4: " << s1._vector.at(4) << ENDL;
-	// std::cout << "AT 9: " << s1._vector.at(9) << ENDL;
-	// std::cout << "SIZE: " << s2._vector.size() << ENDL;
-	// std::cout << "AT 0: " << s2._vector.at(0) << ENDL;
-	// std::cout << "AT 1: " << s2._vector.at(1) << ENDL;
-	// std::cout << "AT 2: " << s2._vector.at(2) << ENDL;
-	// std::cout << "AT 3: " << s2._vector.at(3) << ENDL;
-	// std::cout << "AT 4: " << s2._vector.at(4) << ENDL;
-
+	PRINT_TEST("Make Span of size 10.000:");
+	Span	big_span(10000);
+	std::cout << D_BLU "SIZE: " RST << big_span.size() << ENDL
+		<< D_BLU "MAX_SIZE: " RST << big_span.max_size() << ENDL
+		<< "Fill Span with random numbers:" ENDL;
+	big_span.randomFill();
+	std::cout << D_BLU "SIZE: " RST << big_span.size() << ENDL
+		<< "Get shortest span:" ENDL
+		<< D_BLU "Shortest: " RST << big_span.shortestSpan() << ENDL
+		<< "Get longest span:" ENDL
+		<< D_BLU "Longest: " RST << big_span.longestSpan() << ENDL;
 
 	return (EXIT_SUCCESS);
 }
