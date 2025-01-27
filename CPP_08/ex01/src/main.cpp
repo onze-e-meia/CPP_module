@@ -6,7 +6,7 @@
 /*   By: tforster <tfforster@student.42sp.org.br    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/16 16:16:48 by tforster          #+#    #+#             */
-/*   Updated: 2025/01/23 16:27:26 by tforster         ###   ########.fr       */
+/*   Updated: 2025/01/27 16:12:40 by tforster         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,16 @@
 int	main(void) {
 	std::system("clear");
 	std::srand(static_cast<unsigned int>(std::time(0)));
+
+	PRINT_TEST("Subject test:");
+	Span sp = Span(5);
+	sp.addNumber(6);
+	sp.addNumber(3);
+	sp.addNumber(17);
+	sp.addNumber(9);
+	sp.addNumber(11);
+	std::cout << sp.shortestSpan() << std::endl;
+	std::cout << sp.longestSpan() << std::endl;
 
 	PRINT_TEST("Try to make negative Span:");
 	try {
