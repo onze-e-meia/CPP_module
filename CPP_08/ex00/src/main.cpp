@@ -6,7 +6,7 @@
 /*   By: tforster <tfforster@student.42sp.org.br    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/16 16:16:48 by tforster          #+#    #+#             */
-/*   Updated: 2025/01/21 17:04:26 by tforster         ###   ########.fr       */
+/*   Updated: 2025/01/27 16:09:39 by tforster         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,7 @@ int	main(void) {
 	print_cnt(vec);
 	search_print(vec, integer);
 
+	std::cout << "Add 12 to vector" ENDL;
 	integer = 12;
 	vec.push_back(integer);
 	print_cnt(vec);
