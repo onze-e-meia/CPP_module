@@ -1,0 +1,16 @@
+# dir
+obj/
+trash/
+
+# File extensions
+*.o
+*.d
+*.out
+
+# Binarys
+btc
+RPN
+PmergeMe
+
+# Other files
+color.cpp
