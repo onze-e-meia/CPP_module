@@ -6,7 +6,7 @@
 /*   By: tforster <tfforster@student.42sp.org.br    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/03 15:31:15 by tforster          #+#    #+#             */
-/*   Updated: 2025/02/03 20:47:00 by tforster         ###   ########.fr       */
+/*   Updated: 2025/02/04 17:19:36 by tforster         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@
 class BtcXchg {
 	private:
 		static const char							*_PATH;
-		static std::map<std::string, std::string>	_btc_db;
+		static std::map<std::string, std::string>	_BTC_DB;
 		std::string									_input;
 		std::map<std::string, std::string>			_xchg_db;
 
