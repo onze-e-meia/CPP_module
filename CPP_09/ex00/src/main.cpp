@@ -6,7 +6,7 @@
 /*   By: tforster <tfforster@student.42sp.org.br    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/16 16:16:48 by tforster          #+#    #+#             */
-/*   Updated: 2025/02/04 18:11:30 by tforster         ###   ########.fr       */
+/*   Updated: 2025/02/05 15:37:37 by tforster         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,11 +77,12 @@ int	main(void) {
 
 
 
-	char	test[] = "input/input.csv";
+	// char	test[] = "input/input.csv";
+	char	test[] = "input/input.txt";
 	// BtcXchg	db_0("TEST 0");
 	BtcXchg	db_0(test);
 	std::cout << BOLD COP "++++THIRD++++" RENDL;
-	db_0.printData();
+	// db_0.printData();
 	db_0.printXchg();
 
 	// BtcXchg	db_1(db_0);
