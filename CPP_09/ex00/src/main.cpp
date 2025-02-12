@@ -6,7 +6,7 @@
 /*   By: tforster <tfforster@student.42sp.org.br    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/16 16:16:48 by tforster          #+#    #+#             */
-/*   Updated: 2025/02/05 15:37:37 by tforster         ###   ########.fr       */
+/*   Updated: 2025/02/11 23:12:39 by tforster         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,44 +26,46 @@
 int	main(void) {
 	std::system("clear");
 
-	std::time_t	calendar_time = std::time(0);
-	char		*dt = std::ctime(&calendar_time);
-	std::tm		*tm = std::localtime(&calendar_time);
-	tm->tm_wday = 0;
-	char		*r_tm = std::asctime(tm);
-	// std::tm		*TM = std::gmtime(&calendar_time);
-	// std::time_t	gmt = std::mktime(TM);
-	// char		*char_gmt = std::ctime(&gmt);
+	setenv("TZ", "UTC-3", 1);
+	tzset();
 
 
-	std::cout << "calendar_time: " << calendar_time << ENDL;
-	std::cout << "readable: " << dt << ENDL;
-	std::cout << "tm readable: " << r_tm << ENDL;
-	std::cout << "hour: " << tm->tm_wday << ENDL;
-	std::cout << "hour: " << tm->tm_mon << ENDL;
-	std::cout << "hour: " << tm->tm_mday << ENDL;
-	std::cout << "hour: " << tm->tm_hour << ENDL;
-	std::cout << "hour: " << tm->tm_min << ENDL;
-	std::cout << "hour: " << tm->tm_sec << ENDL;
-	std::cout << "hour: " << tm->tm_yday << ENDL;
-	std::cout << "hour: " << tm->tm_year << ENDL;
+	// std::time_t	calendar_time = std::time(0);
+	// char		*dt = std::ctime(&calendar_time);
+	// std::tm		*tm = std::localtime(&calendar_time);
+	// tm->tm_wday = 0;
+	// char		*r_tm = std::asctime(tm);
+	// // std::tm		*TM = std::gmtime(&calendar_time);
+	// // std::time_t	gmt = std::mktime(TM);
+	// // char		*char_gmt = std::ctime(&gmt);
 
-	std::cout << "hour: " << tm->tm_gmtoff << ENDL;
-	std::cout << "hour: " << tm->tm_isdst << ENDL;
-	std::cout << "hour: " << tm->tm_zone << ENDL;
+	// std::cout << "calendar_time: " << calendar_time << ENDL;
+	// std::cout << "readable: " << dt << ENDL;
+	// std::cout << "tm readable: " << r_tm << ENDL;
+	// std::cout << "hour: " << tm->tm_wday << ENDL;
+	// std::cout << "hour: " << tm->tm_mon << ENDL;
+	// std::cout << "hour: " << tm->tm_mday << ENDL;
+	// std::cout << "hour: " << tm->tm_hour << ENDL;
+	// std::cout << "hour: " << tm->tm_min << ENDL;
+	// std::cout << "hour: " << tm->tm_sec << ENDL;
+	// std::cout << "year day: " << tm->tm_yday << ENDL;
+	// std::cout << "year: " << tm->tm_year << ENDL;
 
-	time_t now = time(0);               // Get current time
-	std::tm* localTime = localtime(&now);	// Convert to local time
+	// std::cout << "hour: " << tm->tm_gmtoff << ENDL;
+	// std::cout << "hour: " << tm->tm_isdst << ENDL;
+	// std::cout << "hour: " << tm->tm_zone << ENDL;
 
-	char buffer[80];
-	strftime(buffer, 80, "%Y-%m-%d %H:%M:%S", localTime);
+	// time_t now = time(0);               // Get current time
+	// std::tm* localTime = localtime(&now);	// Convert to local time
 
-	std::tm	timeStruct = {};
-	strptime("dateTimeStr", "%Y-%m-%d %H:%M:%S", &timeStruct);
+	// char buffer[80];
+	// strftime(buffer, 80, "%Y-%m-%d %H:%M:%S", localTime);
 
-	std::cout << "Current time: " << buffer << std::endl;
+	// std::tm	timeStruct = {};
+	// strptime("dateTimeStr", "%Y-%m-%d %H:%M:%S", &timeStruct);
 
-	// std::cout << "GMT: " << char_gmt << ENDL;
+	// std::cout << "Current time: " << buffer << std::endl;
+
 
 
 
@@ -83,7 +85,11 @@ int	main(void) {
 	BtcXchg	db_0(test);
 	std::cout << BOLD COP "++++THIRD++++" RENDL;
 	// db_0.printData();
-	db_0.printXchg();
+	db_0.xchgLog();
+
+	std::cout << BOLD COP "++++LAST++++" RENDL;
+	BtcXchg	db_1;
+
 
 	// BtcXchg	db_1(db_0);
 	// std::cout << BOLD COP "++++FORTH++++" RENDL;
@@ -98,5 +104,5 @@ int	main(void) {
 	// db_2.printData();
 
 
-
+	return (EXIT_SUCCESS);
 }
