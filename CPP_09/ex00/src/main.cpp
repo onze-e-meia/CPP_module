@@ -6,7 +6,7 @@
 /*   By: tforster <tfforster@student.42sp.org.br    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/16 16:16:48 by tforster          #+#    #+#             */
-/*   Updated: 2025/02/11 23:12:39 by tforster         ###   ########.fr       */
+/*   Updated: 2025/02/12 15:48:29 by tforster         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,11 +83,9 @@ int	main(void) {
 	char	test[] = "input/input.txt";
 	// BtcXchg	db_0("TEST 0");
 	BtcXchg	db_0(test);
-	std::cout << BOLD COP "++++THIRD++++" RENDL;
 	// db_0.printData();
 	db_0.xchgLog();
 
-	std::cout << BOLD COP "++++LAST++++" RENDL;
 	BtcXchg	db_1;
 
 

@@ -6,7 +6,7 @@
 #    By: tforster <tfforster@student.42sp.org.br    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/09/17 16:29:50 by tforster          #+#    #+#              #
-#    Updated: 2025/02/03 17:20:14 by tforster         ###   ########.fr        #
+#    Updated: 2025/02/12 15:19:25 by tforster         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -24,7 +24,8 @@ SRC_DIR	:=	src
 
 SRC		:=	\
 	main.cpp \
-	BitcoinExchange.cpp
+	BitcoinExchange.cpp \
+	utils.cpp
 
 SRC		:= $(addprefix $(SRC_DIR)/, $(SRC))
 

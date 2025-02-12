@@ -6,7 +6,7 @@
 /*   By: tforster <tfforster@student.42sp.org.br    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/03 15:31:15 by tforster          #+#    #+#             */
-/*   Updated: 2025/02/11 23:04:39 by tforster         ###   ########.fr       */
+/*   Updated: 2025/02/12 17:57:10 by tforster         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,9 @@ class BtcXchg {
 		static	std::time_t							_statrtDate;
 		std::string									_input;
 
-		void		buildDB(void);
+		void	checkStatus(void);
+		bool	validate(const std::string &line, std::tm &tmS, char delin, int i);
+		void	buildDB(void);
 
 	public:
 		BtcXchg(void);
@@ -35,7 +37,6 @@ class BtcXchg {
 		~BtcXchg(void);
 
 		void	xchgLog(void);
-		void	printData() const;
 };
 
 #endif
