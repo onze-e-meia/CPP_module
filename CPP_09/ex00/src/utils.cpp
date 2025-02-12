@@ -6,7 +6,7 @@
 /*   By: tforster <tfforster@student.42sp.org.br    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/12 15:10:11 by tforster          #+#    #+#             */
-/*   Updated: 2025/02/12 17:22:17 by tforster         ###   ########.fr       */
+/*   Updated: 2025/02/12 18:55:54 by tforster         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,21 +61,23 @@ bool	isValidDate(const char *ptr, const std::string &rawDate,
 	if (!ptr) {
 		std::cout << L_RED "Err Line " BOLD << i << ": " RST
 			<< "Invalid date \"" <<  rawDate << "\"" RENDL;
-		return (0);
-	} else  {
-		std::string	str(ptr);
-		if (!str_all_space(str)) {
-			std::cout << L_RED "Err line " BOLD << i << ": "
-				<< RST "Bad input fomat \"" << line << "\"" RENDL;
-			return (false);
-		}
-		if (!isValidDay(tmS.tm_year, tmS.tm_mon, tmS.tm_mday) || !str_all_space(str))
-			return (false);
+		return (false);
+	}
 
+	std::string	str(ptr);
+	if (!str_all_space(str)) {
+		std::cout << L_RED "Err line " BOLD << i << ": "
+			<< RST "Bad input fomat \"" << line << "\"" RENDL;
+		return (false);
+	} else if (!isValidDay(tmS.tm_year, tmS.tm_mon, tmS.tm_mday) || !str_all_space(str)) {
+		std::cout << L_RED "Err Line " BOLD << i << ": " RST
+			<< "Invalid date \"" <<  rawDate << "\"" RENDL;
+		return (false);
+	} else {
 		char buffer[2][20];
 		std::time_t	dateValue = mktime(&tmS);
-		strftime(buffer[0], 80, "%Y-%m-%d", &tmS);
 
+		strftime(buffer[0], 80, "%Y-%m-%d", &tmS);
 		if (dateValue < startDate) {
 			std::tm	*tm_StartDate = std::localtime(&startDate);
 			strftime(buffer[1], 20, "%Y-%m-%d", tm_StartDate);
@@ -85,7 +87,7 @@ bool	isValidDate(const char *ptr, const std::string &rawDate,
 			return (false);
 		}
 	}
-	return (1);
+	return (true);
 }
 
 void	printLog (std::time_t dateValue, int i) {

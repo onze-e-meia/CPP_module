@@ -6,7 +6,7 @@
 /*   By: tforster <tfforster@student.42sp.org.br    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/03 15:31:15 by tforster          #+#    #+#             */
-/*   Updated: 2025/02/12 17:57:10 by tforster         ###   ########.fr       */
+/*   Updated: 2025/02/12 18:23:28 by tforster         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,7 @@ class BtcXchg {
 		std::string									_input;
 
 		void	checkStatus(void);
+		void	setStatus(int status, const std::string &str);
 		bool	validate(const std::string &line, std::tm &tmS, char delin, int i);
 		void	buildDB(void);
 
