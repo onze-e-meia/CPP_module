@@ -6,7 +6,7 @@
 /*   By: tforster <tfforster@student.42sp.org.br    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/12 15:10:11 by tforster          #+#    #+#             */
-/*   Updated: 2025/02/13 18:07:08 by tforster         ###   ########.fr       */
+/*   Updated: 2025/02/14 18:25:59 by tforster         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,22 +19,27 @@
 #include "include/utils.hpp"
 #include "lib/color.hpp"
 
-bool	str_all_space(const std::string &str) {
-	const std::size_t	len = str.length();
+bool	str_all_space(const char *str) {
+	std::string			string(str);
+	const std::size_t	len = string.length();
 
-	if (len == 0)
-		return (true);
 	for (std::size_t i = 0; i < len; ++i) {
-		if (std::isspace(static_cast<unsigned char>(str[i])))
+		if (std::isspace(static_cast<unsigned char>(string[i])))
 			continue ;
 		return (false);
 	}
 	return (true);
 }
 
+bool	errLog(const char *type, const std::string &string, int i) {
+	std::cout << L_RED "Err Line " BOLD << i << ": " RST
+			<< "Invalid " << type << " [" << string << "]" RENDL;
+	return (false);
+}
+
 std::ifstream	*openFile(const std::string &path) {
-	std::ifstream	*file;
-	file = new std::ifstream(path.c_str());
+	std::ifstream	*file = new std::ifstream(path.c_str());
+
 	try {
 		if (!file->is_open()) {
 			std::ostringstream	oss;
@@ -56,44 +61,35 @@ bool	isValidDay(int year, int month, int day) {
 	return (day >= 1 && day <= daysMoth[month]);
 }
 
-bool	isValidDate(const char *ptr, const std::string &rawDate,
-	const std::string &line, std::tm &tmS, std::time_t startDate, int i) {
-	if (!ptr) {
-		std::cout << L_RED "Err Line " BOLD << i << ": " RST
-			<< "Invalid date \"" <<  rawDate << "\"" RENDL;
-		return (false);
-	}
+bool	isStartDate(std::tm &tmS, std::time_t startDate, int i) {
+	char buffer[2][20];
 
-	std::string	str(ptr);
-	if (!str_all_space(str)) {
+	strftime(buffer[0], 80, "%Y-%m-%d", &tmS);
+	if ( mktime(&tmS) < startDate) {
+		strftime(buffer[1], 20, "%Y-%m-%d", std::localtime(&startDate));
 		std::cout << L_RED "Err line " BOLD << i << ": "
-			<< RST "Bad input fomat \"" << line << "\"" RENDL;
+			<< RST "Date " << buffer[0] << ORG " is earlier " RST "than the start of the series "
+			<< buffer[1] << RENDL;
 		return (false);
-	} else if (!isValidDay(tmS.tm_year, tmS.tm_mon, tmS.tm_mday) || !str_all_space(str)) {
-		std::cout << L_RED "Err Line " BOLD << i << ": " RST
-			<< "Invalid date \"" <<  rawDate << "\"" RENDL;
-		return (false);
-	} else {
-		char buffer[2][20];
-		std::time_t	dateValue = mktime(&tmS);
-
-		strftime(buffer[0], 80, "%Y-%m-%d", &tmS);
-		if (dateValue < startDate) {
-			std::tm	*tm_StartDate = std::localtime(&startDate);
-			strftime(buffer[1], 20, "%Y-%m-%d", tm_StartDate);
-			std::cout << L_RED "Err line " BOLD << i << ": "
-				<< RST "Date "<< buffer[0] << " is earlier than the start of the series "
-				<< buffer[1] << RENDL;
-			return (false);
-		}
 	}
 	return (true);
 }
 
-void	printLog (std::time_t dateValue, int i) {
-	char buffer[2][20];
-	std::tm		*tm = std::localtime(&dateValue);
-	strftime(buffer[0], 80, "%Y-%m-%d", tm);
+bool	isValidDate(const char *timeLeftOver, const std::string &RawTime,
+	std::tm &tmS, std::time_t startDate, int i) {
+	if (!timeLeftOver || !str_all_space(timeLeftOver))
+		return (errLog(ORG "date" RST, RawTime , i));
+	else if (!isValidDay(tmS.tm_year, tmS.tm_mon, tmS.tm_mday) )
+		return (errLog(ORG "date" RST, RawTime , i));
+	else if (!isStartDate(tmS, startDate, i))
+		return (false);
+	return (true);
+}
 
-	std::cout << D_BLU "CSV Line " BOLD << i << ": " RST H_GRN << buffer[0] << RENDL;
+void	printLog (std::time_t dateValue, float value, float xchg, int i) {
+	char buffer[20];
+	strftime(buffer, 80, "%Y-%m-%d", std::localtime(&dateValue));
+
+	std::cout << D_BLU "CSV Line " BOLD << i << ": " RST H_GRN << buffer << RST
+		<< " => " << value << " = " << value * xchg << ENDL;
 }
