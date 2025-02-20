@@ -6,15 +6,12 @@
 /*   By: tforster <tfforster@student.42sp.org.br    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/16 16:16:48 by tforster          #+#    #+#             */
-/*   Updated: 2025/02/19 19:04:19 by tforster         ###   ########.fr       */
+/*   Updated: 2025/02/20 18:41:26 by tforster         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <cstdlib>
 #include <iostream>
-#include <vector>
-#include <deque>
-#include <list>
 #include "include/RPN.hpp"
 #include "lib/color.hpp"
 
@@ -31,6 +28,6 @@ int	main(int argc, char ** argv) {
 	RPN	rpn(argv[1]);
 	float	nb = rpn.solver();
 	nb  = 1;
-	return (EXIT_FAILURE);
+	return (EXIT_SUCCESS);
 
 }

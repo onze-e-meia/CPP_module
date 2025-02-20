@@ -6,17 +6,16 @@
 /*   By: tforster <tfforster@student.42sp.org.br    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/19 16:20:58 by tforster          #+#    #+#             */
-/*   Updated: 2025/02/19 19:22:24 by tforster         ###   ########.fr       */
+/*   Updated: 2025/02/20 18:35:27 by tforster         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <cmath>
 #include <cstddef>
 #include <cstdlib>
-#include <exception>
-#include <functional>
 #include <sstream>
 #include <iostream>
+#include <stack>
 #include <stdexcept>
 #include <string>
 #include "include/RPN.hpp"
@@ -24,48 +23,46 @@
 
 const	std::string::size_type NPOS = std::string::npos;
 
-struct plus			{ int operator()(int l, int r) {return (l + r); } };
-struct minus		{ int operator()(int l, int r) {return (l - r); } };
-struct multiplies	{ int operator()(int l, int r) {return (l * r); } };
-struct divides		{ int operator()(int l, int r) {return (l / r); } };
-
 static void	isValidInput(const std::string &input) {
 	std::string::size_type index = input.find_first_not_of("0123456789-+/* \t\n");
 	if (index != NPOS) {
 		std::ostringstream oss;
-		oss << "Invalid input at " << index << "[" << input.at(index) << "]";
+		oss << L_RED "Error: " RST "Invalid char " << "[" << input.at(index) << "]"
+			<< " at position " << index;
 		throw (std::runtime_error(oss.str()));
 	}
 }
 
-void	RPN::getOperator(const char token) {
-	switch (token) {
-		case '+': process_operation(plus()); break;
-		case '-': process_operation(minus()); break;
-		case '*': process_operation(multiplies()); break;
-		case '/': process_operation(divides()); break;
-		default: {
-			std::cout << " ADD to stack [" << token << "]" ENDL;
-			_stack.push(static_cast<int>(std::strtol(&token, NULL, 10)));
-			break;
-		}
+int	RPN::plus::operator()(int l, int r) {return (l + r); };
+int RPN::minus::operator()(int l, int r) {return (l - r); };
+int RPN::multiplies::operator()(int l, int r) {return (l * r); };
+int RPN::divides::operator()(int l, int r) {return (l / r); };
+
+void	RPN::getOperator(const char *token) {
+	switch (*token) {
+		case '+': process_operation(plus(), token); break;
+		case '-': process_operation(minus(), token); break;
+		case '*': process_operation(multiplies(), token); break;
+		case '/': process_operation(divides(), token); break;
+		default:
+			this->push(static_cast<int>(std::strtol(token, NULL, 10)));
 	}
 }
 
-RPN::RPN(void): _stack(), _input() {};
+RPN::RPN(void): _input() {};
 
 RPN::RPN(const std::string input):
-	_stack(),
+	std::stack<int>(),
 	_input(input) {};
 
 RPN::RPN(const RPN &other):
-	_stack(other._stack),
+	std::stack<int>(other),
 	_input(other._input) {}
 
 RPN &RPN::operator=(const RPN &other) {
 	if (this != &other) {
+		std::stack<int>::operator=(other);
 		_input = other._input;
-		_stack = other._stack;
 	}
 	return (*this);
 }
@@ -81,38 +78,45 @@ int	RPN::solver(void) {
 		while (iss >> token) {
 			if (token.size() != 1) {
 				std::ostringstream oss;
-				oss << "Invalid input: " << token;
+				oss << L_RED "Error: " RST "Invalid input format [" << token << "]";
 				throw (std::runtime_error(oss.str()));
 			}
-			getOperator(token.at(0));
-			// std::cout << " ADD to stack [" << token << "]" ENDL;
-
-
-			// _stack.push(static_cast<int>(std::strtol(token.c_str(), NULL, 10)));
-
+			getOperator(token.c_str());
 		}
-		if (_stack.size() != 1) {
+		if (this->size() != 1) {
 			std::ostringstream oss;
-			oss << "Stack not empty.";
+			oss << L_RED "Error: " RST << "Stack [" << *this << "] "
+				<< "lack operators to do numbers";
 			throw (std::runtime_error(oss.str()));
-
 		}
 	} catch (const std::exception &e) {
 		std::cerr << e.what() << ENDL;
 		return (NAN);
 	}
-	std::cout << "Result: [" << _stack.top() << "]" ENDL;
+	std::cout << H_GRN "Result: " RST << this->top() << ENDL;
 	return (11);
 }
 
+std::ostream &operator<<(std::ostream &os, RPN &rpn) {
+	RPN::it	begin = rpn.begin();
+	RPN::it	end = rpn.end();
+	while (begin != end) {
+		os << *begin;
+		++begin;
+		if (begin != end)
+			os << ", ";
+	}
+	return (os);
+}
 
-// ➜  ex01 git:(master) ✗ ./RPN "1 1 1 -+ +"
-// Error
-// ➜  ex01 git:(master) ✗ ./RPN "1 1 1 - +"
-// 1
-// ➜  ex01 git:(master) ✗ ./RPN "1 1 - 1 +"
-// 1
-// ➜  ex01 git:(master) ✗ ./RPN "1 2 - 1 +"
-// 0
-// ➜  ex01 git:(master) ✗ ./RPN "1 2 1 - +"
-// 2
+std::ostream &operator<<(std::ostream &os, const RPN &rpn) {
+	RPN::const_it	begin = rpn.begin();
+	RPN::const_it	end = rpn.end();
+	while (begin != end) {
+		os << *begin;
+		++begin;
+		if (begin != end)
+			os << ", ";
+	}
+	return (os);
+}

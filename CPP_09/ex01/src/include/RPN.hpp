@@ -6,7 +6,7 @@
 /*   By: tforster <tfforster@student.42sp.org.br    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/19 15:16:56 by tforster          #+#    #+#             */
-/*   Updated: 2025/02/19 18:56:50 by tforster         ###   ########.fr       */
+/*   Updated: 2025/02/20 18:29:08 by tforster         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,39 +15,40 @@
 
 # include <stack>
 # include <string>
+# include <sstream>
+# include <stdexcept>
+# include "../lib/color.hpp"
 
-#include <exception>
-#include <stdexcept>
+class RPN ;
 
-class	RPN {
+std::ostream &operator<<(std::ostream &os, RPN &rpn);
+std::ostream &operator<<(std::ostream &os, const RPN &_rpn);
+
+class	RPN: public std::stack<int> {
 	private:
-		std::stack<int>	_stack;
 		std::string		_input;
 
-		// typedef operate() ;
+		struct plus			{ int operator()(int l, int r); };
+		struct minus		{ int operator()(int l, int r); };
+		struct multiplies	{ int operator()(int l, int r); };
+		struct divides		{ int operator()(int l, int r); };
 
-		// struct	plus {
-		// 	int operator()(int top, int bellow);
-		// };
-
-		// typedef std::string		(Contact::*ContactGetter)(void) const;
-		// static ContactGetter	getters[FIELD_COUNT];
-
-		// typedef void 	(*getOperator(const char token))(int, int);
-		// getOperator		func[5];
-
-		void	getOperator(const char token);
+		void	getOperator(const char *token);
 
 		template <typename Oprt>
-		void	process_operation(Oprt op) {
-			int	lvalue = -1, rvalue = -1;
-			if (RPN::_stack.size() < 2)
-				throw (std::runtime_error("RPN: invalid expression 4"));
-			rvalue = RPN::_stack.top();
-			RPN::_stack.pop();
-			lvalue = RPN::_stack.top();
-			RPN::_stack.pop();
-			RPN::_stack.push(op(lvalue, rvalue));
+		void	process_operation(Oprt op, const char *token) {
+			if (this->size() < 2) {
+				std::ostringstream oss;
+				oss << L_RED "Error: " RST << "Stack [" << *this << "] "
+					<< "lack number to do operation '"
+					<< token << "'";
+				throw (std::runtime_error(oss.str()));
+			}
+			int	top = this->top();;
+			this->pop();
+			int	bellow = this->top();
+			this->pop();
+			this->push(op(bellow, top));
 		}
 
 	public:
@@ -57,9 +58,18 @@ class	RPN {
 		RPN &operator=(const RPN &other);
 		~RPN(void);
 
+		typedef std::stack<int>::container_type::const_iterator	const_it;
+		typedef std::stack<int>::container_type::iterator		it;
+
+		const_it	begin() const {return (this->c.begin());}
+		const_it	end() const {return (this->c.end());}
+		it			begin(){return (this->c.begin());}
+		it			end() {return (this->c.end());}
+
 		int	solver(void);
 };
 
-
+std::ostream &operator<<(std::ostream &os, RPN &rpn);
+std::ostream &operator<<(std::ostream &os, const RPN &_rpn);
 
 #endif

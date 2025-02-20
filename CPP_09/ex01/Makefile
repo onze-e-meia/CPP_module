@@ -6,7 +6,7 @@
 #    By: tforster <tfforster@student.42sp.org.br    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/09/17 16:29:50 by tforster          #+#    #+#              #
-#    Updated: 2025/02/19 16:57:52 by tforster         ###   ########.fr        #
+#    Updated: 2025/02/20 18:45:18 by tforster         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -78,6 +78,7 @@ TITLE_LOOSE	:= $(TITLE) $(MAGENTA)disable Werror$(RESET)
 TITLE_MSG	:= $(TITLE) $(MAGENTA)with message$(RESET)
 TITLE_DEBUG	:= $(TITLE) $(MAGENTA)debug$(RESET)
 TITLE_ASAN	:= $(TITLE) $(MAGENTA)address sanitizer$(RESET)
+TITLE_IMPUTS:= $(TITLE) $(MAGENTA)with inputsr$(RESET)
 
 # 1: action, 2: target, 3: color
 define message
@@ -100,12 +101,15 @@ $(OBJ_DIR)/%.o: $(SRC_DIR)/%.cpp
 	$(call message,OBJECT,$@,$(GREEN))
 
 loose:	## Build the program ignoring warnings
+	$(MAKE) fclean
 	$(MAKE) TITLE="$(TITLE_LOOSE)" FLAGS="$(filter-out -Werror,$(FLAGS))"
 
 msg:	## Build the program with Constructor messages enabled
+	$(MAKE) fclean
 	$(MAKE) TITLE="$(TITLE_MSG)" MSG="-DMSG"
 
 debug:	## Build the program with Debug symbols
+	$(MAKE) fclean
 	$(MAKE) TITLE="$(TITLE_DEBUG)" DEBUG=-"g3"
 
 asan:	## Build the program with Debug and Address Sanitizer
@@ -123,6 +127,13 @@ fclean:	## Remove all generated files
 re:		## Rebuild the program
 	$(MAKE) fclean
 	$(MAKE)
+
+inputs:	## Run with testes
+	$(MAKE) TITLE="$(TITLE_IMPUTS)"
+	./$(NAME) "8 9 * 9 - 9 - 9 - 4 - 1 +"
+	./$(NAME) "7 7 * 7 -"
+	./$(NAME) "1 2 * 2 / 2 * 2 4 - +"
+	./$(NAME) "(1 + 1)"
 
 help:	## Show this message
 	echo "$(BOLD)Usage: make [<name>=<value>...]$(RESET) $(BOLD)$(CYAN)[target...]$(RESET)"
