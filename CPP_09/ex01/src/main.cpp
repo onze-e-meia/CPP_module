@@ -6,7 +6,7 @@
 /*   By: tforster <tfforster@student.42sp.org.br    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/16 16:16:48 by tforster          #+#    #+#             */
-/*   Updated: 2025/02/20 18:41:26 by tforster         ###   ########.fr       */
+/*   Updated: 2025/02/21 16:56:23 by tforster         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ int	main(int argc, char ** argv) {
 	}
 	RPN	rpn(argv[1]);
 	float	nb = rpn.solver();
-	nb  = 1;
+	nb  = 1;	
 	return (EXIT_SUCCESS);
 
 }

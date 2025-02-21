@@ -6,7 +6,7 @@
 /*   By: tforster <tfforster@student.42sp.org.br    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/19 16:20:58 by tforster          #+#    #+#             */
-/*   Updated: 2025/02/20 18:35:27 by tforster         ###   ########.fr       */
+/*   Updated: 2025/02/21 17:38:25 by tforster         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,10 +33,10 @@ static void	isValidInput(const std::string &input) {
 	}
 }
 
-int	RPN::plus::operator()(int l, int r) {return (l + r); };
-int RPN::minus::operator()(int l, int r) {return (l - r); };
-int RPN::multiplies::operator()(int l, int r) {return (l * r); };
-int RPN::divides::operator()(int l, int r) {return (l / r); };
+int	RPN::plus::operator()(int top, int bellow) {return (bellow + top); };
+int RPN::minus::operator()(int top, int bellow) {return (bellow - top); };
+int RPN::multiplies::operator()(int top, int bellow) {return (bellow * top); };
+int RPN::divides::operator()(int top, int bellow) {return (bellow / top); };
 
 void	RPN::getOperator(const char *token) {
 	switch (*token) {
@@ -68,6 +68,22 @@ RPN &RPN::operator=(const RPN &other) {
 }
 
 RPN::~RPN(void) {}
+
+int RPN::pop() {
+			if (!this->empty()) {
+				int	nb = this->top();
+				std::stack<int>::pop();
+				return (nb);
+			}
+			std::ostringstream oss;
+			oss << L_RED "Error: " RST << "Stack is empty, cannot pop!";
+			throw (std::runtime_error("Stack is empty, cannot pop!"));
+		}
+
+RPN::const_it	RPN::begin() const {return (this->c.begin());}
+RPN::const_it	RPN::end() const {return (this->c.end());}
+RPN::it			RPN::begin(){return (this->c.begin());}
+RPN::it			RPN::end() {return (this->c.end());}
 
 int	RPN::solver(void) {
 	std::cout << D_BLU "INPUT string: " RST << _input << ENDL;
