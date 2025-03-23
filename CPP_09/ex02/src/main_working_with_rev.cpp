@@ -10,15 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-// ./PmergeMe $(shuf -i 0-99 -n 10)
-// ./PmergeMe 51  43  57  24  62  80  92  94  16  23  82  97  40  30  56  39
-// ./PmergeMe 34  51  36  74  19  84  73  61  26  15  8  2  1  16  67  85
-// ./PmergeMe 55  76  62  51  98  24  34  37  97  21  13
-// ./PmergeMe 22  51  47  76  21  55  70  6  41  30  82  34
-// ./PmergeMe 42  47  22  21  64  68  58  67  54  91  6
-// ./PmergeMe 55  61  32  66  26  94  0  91  27  79  25  85  1  81  5  34  57  65  17  88  6  29  64
-
-// 99627  99846  99680  99980
+// ./your_program $(shuf -i 0-99 -n 10)
 
 
 #include <cstddef>
@@ -32,7 +24,6 @@
 #include <deque>
 #include <list>
 #include <cmath>
-#include "lib/utils.hpp"
 #include "lib/color.hpp"
 
 static const std::size_t jacobsthal_diff[] = {
@@ -76,16 +67,18 @@ struct ctrl {
 		_nbElements_noLeftOver = _vecSize - _leftOverElements;
 	}
 
-	void up_order() {
+	ctrl up_order() {
 		++_level;
 		_order <<= 1u;
 		init_ctrl(_order);
+		return (*this);
 	}
 
-	void down_order() {
+	ctrl down_order() {
 		--_level;
 		_order >>= 1u;
 		init_ctrl(_order);
+		return (*this);
 	}
 };
 
@@ -99,6 +92,7 @@ void	print_status(ctrl *c) {
 		<< " PAIR_SIZE: " << c->_pairSize << " NB_OF_PAIRS: " << c->_nb_pairs << ENDL
 		<< " NB_ELEMENTS_OF_COMPLETE_PAIRS: " << c->_nbElements_completePs << ENDL
 		<< " NB_UNPAIRED_ELEMENTS: " << c->_nb_unpaired << ENDL
+		// << " LEFTOVER_ELEMENTS: " << c->_leftOverElements % c->_order << ENDL
 		<< " LEFTOVER_ELEMENTS: " << c->_leftOverElements << ENDL
 		<< " NB_ELEMENTS_WITH_NO LEFTOVER :" << c->_nbElements_noLeftOver << ENDL;
 }
@@ -114,11 +108,8 @@ int	main(int argc, char **argv) {
 	for (std::size_t i = 0; i < vecSize; ++i)
 		input[i] = static_cast<int>(std::strtol(argv[i + 1], NULL, 10));
 
-	// (void)argc;
-	// (void)argv;
 
-	// std::size_t	vecSize = 21;
-	// int input[] = {50, 79, 59, 57, 6, 90, 60, 84, 42, 15, 3, 70, 53, 67, 58, 86, 96, 92, 88, 91, 56};
+	// std::cout << "Number of arg: " << argc - 1 << ENDL;
 
 	// std::size_t	vecSize = 22;
 	// int	input[] = {11, 2, 17, 0, 16, 8, 6, 15, 10, 3, 21, 1, 18, 9, 14, 19, 12, 5, 4, 20, 13, 7};
@@ -176,6 +167,7 @@ int	main(int argc, char **argv) {
 }
 
 void	merge(int *input, ctrl *c) {
+
 	int	*main = input;
 	int	tempHolder[c->_vecSize];
 	int	*pend = tempHolder;
@@ -183,11 +175,9 @@ void	merge(int *input, ctrl *c) {
 	for (std::size_t i = 0; i < c->_vecSize; ++i)
 		tempHolder[i] = -1;
 
-	printMerge(c, main, true, true);
-
 	while (c->_nb_pairs > 0) {
 		// print_status(c);
-		// printMerge(c, main, true, true);
+		printMerge(c, main, true, true);
 
 		for (std::size_t i = c->_pairStart, g = 0 ; g < c->_nb_pairs ; i += c->_pairSize, ++g) {
 			if (main[i] > main[i + c->_order]) {
@@ -200,19 +190,19 @@ void	merge(int *input, ctrl *c) {
 				}
 			}
 		}
-		// printMerge(c, main, false, true);
+		printMerge(c, main, false, true);
 		c->up_order();
 	}
 
 	std::cout << BOLD COP ENDL ">>> START OF ISERTION <<<" << RENDL;
-	while (c->_level >  0) {
+	while (c->_level >  0)
+	{
 		c->down_order();
 		// print_status(c);
-		// printMerge(c, main, true, false);
+		printMerge(c, main, true, false);
 		isertion(c, &main, &pend);
 	}
 
-	printMerge(c, main, true, false);
 	int	b = 1;
 	for (std::size_t i = 0; i < c->_vecSize - 1; ++i) {
 		if (main[i] > main[i + 1]) {
@@ -239,71 +229,113 @@ void	isertion(ctrl *c, int **m, int **p) {
 	std::memcpy(main, temp, c->_pairSize * sizeof(int));
 	std::size_t	bi = 1;
 	std::size_t	ai = 1;
-	std::size_t	insertion = 2;
 	std::size_t	copied = c->_pairSize;
+	// if (c->_nb_pairs > 1) {
+	// 	std::memcpy(main + c->_pairSize, temp + 3 * c->_order, c->_order * sizeof(int));
+	// 	copied += c->_order;
+	// 	++ai;
+	// }
 
-	std::size_t odd = (c->_nb_unpaired - c->_leftOverElements != 0 ? 1 : 0);
-	std::size_t total_moves = c->_nb_pairs + odd - 1;
-
-	for (std::size_t j = 0, move = 0; move < total_moves; ++j) {
-		std::size_t partialMove = movesLeft_to_do(total_moves, move, jacobsthal_diff[j]);
-
-		move += partialMove;
-		insertion = ai + bi;
-
-		for (std::size_t i = 0; ai < c->_nb_pairs && i < partialMove; ++i) {
+		while (ai < c->_nb_pairs) {
+			// std::cout << BOLD RED ">>> REMAINING AS" ENDL;
 			memcpy(main + copied, temp + ((2 * ai + 1) * c->_order), c->_order * sizeof(int));
 			copied += c->_order;
 			++ai;
-			++insertion;
 		}
+		// printMerge(c, main, false, false);
+
+	printMerge(c, main, false, false);
+	std::size_t total_moves = c->_nb_pairs + (c->_nb_unpaired - c->_leftOverElements != 0 ? 1 : 0) - 1;
 
 
-		std::size_t	bound = bi;
-		// std::size_t reverse_b = bi + partialMove - 1;
+	// std::cout << BOLD " TOTAL_MOVES: " << total_moves << RENDL;
+	for (std::size_t j = 0, moves = 0; moves < total_moves; ++j) {
+		// moves += static_cast<int>(total_moves) - static_cast<int>(jacobsthal_diff[j]) > 0 ? jacobsthal_diff[j] : total_moves - moves;
+		std::size_t partialMove = static_cast<int>(total_moves) - (static_cast<int>(moves) + static_cast<int>(jacobsthal_diff[j])) > 0 ? jacobsthal_diff[j] : total_moves - moves;
+		moves += partialMove;
+		std::cout
+			<< BOLD " >>>>>>>>>>>> MOVES: " << moves << ENDL
+			<< " JACOBSTHAL_DIFF: " << jacobsthal_diff[j] << ENDL
+			<< " PARTIAL_MOVES: " << partialMove << RENDL;
+
+		std::size_t	s = bi;
+		// for (std::size_t k = 0; k < jacobsthal_diff[j]; ++k) {
 		for (std::size_t k = 0; k < partialMove; ++k) {
-			std::size_t reverse_b = bound + partialMove - 1 - k;
-			// --reverse_b;
+			std::size_t r = s + partialMove - 1 - k;
+			std::cout << BOLD " ACTUAL_MOVE: " << k << " ON B" << bi << RENDL;
+			std::cout << BOLD " TRY MOVE ON: " << r << " IS " << temp[c->_pairStart + 2 * r * c->_order] << RENDL;
+			// for (std::size_t i = c->_pairStart, p = 0; p < ai + bi;  i += c->_order, ++p) {
+			for (std::size_t i = c->_pairStart, p = 0; 1;  i += c->_order, ++p) {
 
-			// std::cout
-			// 	<< BOLD << partialMove << " ACTUAL_MOVE: " << k + 1 << " ON a" << reverse_b + 1
-			// 	<< " BOUND_ON a" << reverse_b + 1 << "ODD" << (reverse_b == c->_nb_pairs) << RENDL;
-			// 	<< BOLD " TRY MOVE ON: " << reverse_b << " IS " << temp[c->_pairStart + 2 * reverse_b * c->_order] << RENDL;
+				// if (main[i] > temp[c->_pairStart + 2 * bi * c->_order]) {
+				if (main[i] > temp[c->_pairStart + 2 * r * c->_order]) {
+					// std::cout
+					// 	<< " COMPARE: " << main[i] << " | "
+					// 	<< " WITH " << temp[c->_pairStart + 2 * bi  * c->_order] << " | "
+					// 	<< " PAIR_SIZE: " << 2 * c->_order << ENDL;
+					// if (p < ai + bi) {
+					if (bi <= ai) {
+						std::size_t	to_move = copied - p * c->_order;
+						std::cout << RED "MOVING MAIN" RENDL;
+						memmove(main + ((p + 1) * c->_order), main + (p * c->_order), to_move * sizeof(int));
 
-			int 		value = temp[c->_pairStart + 2 * reverse_b * c->_order];
+						printMerge(c, main, false, false);
+					}
+					// std::cout << BOLD RED ">>> INSERTION" ENDL;
 
-			std::size_t binaryIindex;
-			if (odd && value > main[c->_order * insertion - 1])
-				binaryIindex = insertion;
-			else
-				binaryIindex = binarySearchInsertPos(main, value, c->_order, insertion);
-			std::size_t pos = binaryIindex;
+					// memcpy(main + (p * c->_order), temp + 2 * bi * c->_order, c->_order * sizeof(int));
+					memcpy(main + (p * c->_order), temp + 2 * r * c->_order, c->_order * sizeof(int));
+					copied += c->_order;
+					++bi;
+					printMerge(c, main, false, false);
 
-			// insertion = ((!odd && pos == insertion - 1) ? --insertion : insertion);
-			insertion = (pos == insertion - 1 ? --insertion : insertion);
-			insertion = ((odd && reverse_b == c->_nb_pairs) ? ++insertion : insertion);
+					// while (bi >= ai && bi < c->_nb_pairs) {
+					// 	std::cout << BOLD RED ">>> REMAINING AS" ENDL;
+					// 	memcpy(main + copied, temp + ((2 * ai + 1) * c->_order), c->_order * sizeof(int));
+					// 	copied += c->_order;
+					// 	++ai;
+					// 	printMerge(c, main, false, false);
+					// }
+					break ;
+				}
+				// else if (main[i] < temp[c->_pairStart + 2 * bi * c->_order] && p + 1 == ai + bi){
+				else if (main[i] < temp[c->_pairStart + 2 * r * c->_order] && p + 1 == ai + bi){
+					// std::cout << BOLD RED ">>> INSERTION" ENDL;
+					// memcpy(main + (p * c->_order), temp + 2 * bi * c->_order, c->_order * sizeof(int));
 
-			pos = (c->_order * (pos + 1) - 1);
-			// std::cout << BOLD " INSERT AT POS: " GRN << pos << RST << " VALUE: " GRN << main[pos] << RENDL;
 
-			if (binaryIindex != 2 * c->_nb_pairs) {
-				std::size_t	to_move = copied - binaryIindex * c->_order;
-				memmove(main + ((binaryIindex + 1) * c->_order), main + (binaryIindex  * c->_order), to_move * sizeof(int));
-				// printMerge(c, main, false, false);
+					// memcpy(main + copied, temp + 2 * bi * c->_order, c->_order * sizeof(int));
+					memcpy(main + copied, temp + 2 * r * c->_order, c->_order * sizeof(int));
+					copied += c->_order;
+					++bi;
+
+					// printMerge(c, main, false, false);
+					break;
+				}
 			}
-			memcpy(main + (binaryIindex  * c->_order), temp + 2 * reverse_b * c->_order, c->_order * sizeof(int));
-			copied += c->_order;
-			++bi;
-			// std::cout << BOLD RED ">>> INSERTION" ENDL;
-			// printMerge(c, main, false, false);
 		}
+		// std::cout << BOLD RED "BEFORE THE Assssss" RENDL;
+		// while (bi > 2 && bi >= ai && bi < c->_nb_pairs) {
+
+		// while (bi > 2 && bi >= ai) {
+		// 	if (ai < c->_nb_pairs) {
+		// 		// std::cout << BOLD RED ">>> REMAINING AS" ENDL;
+		// 		memcpy(main + copied, temp + ((2 * ai + 1) * c->_order), c->_order * sizeof(int));
+		// 		copied += c->_order;
+		// 	}
+		// 	++ai;
+		// 	// printMerge(c, main, false, false);
+		// }
+
 	}
 	if (c->_leftOverElements)
 		memcpy(main + copied, temp + copied, c->_leftOverElements * sizeof(int));
+
 	int	*tempArray = *m;
 	*m = *p;
 	*p = tempArray;
-	// printMerge(c, main, false, false);
+	// std::cout << BOLD RED ">>> FINAL: " ENDL;
+	printMerge(c, main, false, false);
 }
 
 void	printMerge(ctrl *c, int *vec, bool before, bool merge) {
@@ -316,7 +348,7 @@ void	printMerge(ctrl *c, int *vec, bool before, bool merge) {
 			std::cout << BOLD COP " >>> Merge iteration level: " << c->_level << ENDL
 				<< "BEFORE: " RST;
 		else
-			std::cout << ENDL BOLD COP " >>> Insertion sort iteration level: " << c->_level << ENDL
+			std::cout << BOLD COP " >>> Insertion sort iteration level: " << c->_level << ENDL
 				<< "BEFORE: " RST;
 	} else
 		std::cout << BOLD COP "AFTER:  " RST;
@@ -353,6 +385,5 @@ void	printMerge(ctrl *c, int *vec, bool before, bool merge) {
 		}
 		std::cout << RST;
 	}
-	std::cout << ENDL;
-	// std::cout <<ENDL BOLD GRN "END PRINT" RENDL;
+	std::cout << RENDL;
 }

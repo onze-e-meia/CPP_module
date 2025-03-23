@@ -6,7 +6,7 @@
 #    By: tforster <tfforster@student.42sp.org.br    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/09/17 16:29:50 by tforster          #+#    #+#              #
-#    Updated: 2025/02/03 15:26:31 by tforster         ###   ########.fr        #
+#    Updated: 2025/03/19 17:27:40 by tforster         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -23,7 +23,8 @@ NAME	:=	PmergeMe
 SRC_DIR	:=	src
 
 SRC		:=	\
-	main.cpp
+	main.cpp \
+	utils.cpp
 
 SRC		:= $(addprefix $(SRC_DIR)/, $(SRC))
 
@@ -48,6 +49,7 @@ FLAGS	:=	-Wall -Wextra -Werror -std=c++98
 INCLUDE	:=	$(addprefix -I , $(INC_DIR)) -MMD -MP
 LIB		:=	$(addprefix -I , $(LIB_DIR)) -MMD -MP
 
+# DEBUG	=
 DEBUG	=	-O3
 MSG		=
 SANITIZE=
@@ -90,7 +92,8 @@ endef
 all: $(NAME) ## Build the program
 
 $(NAME): $(OBJ)
-	$(CC) $(SANITIZE) $(DEBUG) $(MSG) $(FLAGS) $(OBJ) -o $(NAME)
+#	$(CC) $(SANITIZE) $(DEBUG) $(MSG) $(FLAGS) $(OBJ) -o $(NAME)
+	$(CC) $(MSG) $(FLAGS) $(OBJ) -o $(NAME)
 	$(call message,BINARY,$(NAME),$(BLUE))
 
 $(OBJ_DIR)/%.o: $(SRC_DIR)/%.cpp
@@ -105,7 +108,7 @@ msg:	## Build the program with Constructor messages enabled
 	$(MAKE) TITLE="$(TITLE_MSG)" MSG="-DMSG"
 
 debug:	## Build the program with Debug symbols
-	$(MAKE) TITLE="$(TITLE_DEBUG)" DEBUG=-"g3"
+	$(MAKE) TITLE="$(TITLE_DEBUG)" DEBUG=-"g3" FLAGS="$(filter-out -Werror,$(FLAGS))"
 
 asan:	## Build the program with Debug and Address Sanitizer
 	$(MAKE) TITLE="$(TITLE_ASAN)" SANITIZE="-fsanitize=address" DEBUG="-g3"
