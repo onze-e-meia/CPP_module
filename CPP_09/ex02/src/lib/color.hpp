@@ -13,6 +13,9 @@
 #ifndef COLOR_HPP
 # define COLOR_HPP
 
+# include <sstream>
+# include <cmath>
+
 // Font Color
 // Standard
 # define BLK		"\033[38;5;0m"
@@ -81,17 +84,13 @@
 # define BG_H_WHT	"\033[48;5;15m"
 // Grayscale
 # define BG_GS_0	"\033[48;5;232m"
-
-# define BG_GS_05	"\033[48;5;234m"
-
-# define BG_GS_1	"\033[48;5;236m"
-
-# define BG_GS_15	"\033[48;5;238m"
-
-# define BG_GS_2	"\033[48;5;240m"
-# define BG_GS_3	"\033[48;5;244m"
-# define BG_GS_4	"\033[48;5;248m"
-# define BG_GS_5	"\033[48;5;252m"
+# define BG_GS_1	"\033[48;5;234m"
+# define BG_GS_2	"\033[48;5;236m"
+# define BG_GS_3	"\033[48;5;238m"
+# define BG_GS_4	"\033[48;5;240m"
+# define BG_GS_5	"\033[48;5;244m"
+# define BG_GS_6	"\033[48;5;248m"
+# define BG_GS_7	"\033[48;5;252m"
 
 // Reset ALL
 # define RST		"\033[0m"
@@ -108,5 +107,44 @@
 # define CURSOR_HM	"\033[H"
 # define CL_LINE	"\033[K"
 # define UP_LN		"\033[F"
+
+// Move cursor
+inline std::string C_HORZ(int n) {
+	std::ostringstream oss;
+	oss << "\033[" << std::abs(n) << (n > 0 ? "C" : "D");
+	return (oss.str());
+}
+
+inline std::string C_VERT(int n) {
+	std::ostringstream oss;
+	oss << "\033[" << std::abs(n) << (n > 0 ? "A" : "B");
+	return (oss.str());
+}
+
+// Integer to subscript Unicode characters
+inline std::string subscript(int n) {
+	const std::string subscripts[] = {
+		"\u2080", "\u2081", "\u2082", "\u2083", "\u2084",
+		"\u2085", "\u2086", "\u2087", "\u2088", "\u2089"
+	};
+	std::string result;
+
+	if (n < 0) {
+		result += "-";
+		n = -n;
+	}
+
+	if (n == 0) {
+		result = subscripts[0];
+	} else {
+		std::string tempResult;
+		while (n > 0) {
+			tempResult = subscripts[n % 10] + tempResult;
+			n /= 10;
+		}
+	result += tempResult;
+	}
+	return result;
+}
 
 #endif

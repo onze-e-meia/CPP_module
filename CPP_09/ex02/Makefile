@@ -22,45 +22,48 @@ NAME	:=	PmergeMe
 
 SRC_DIR	:=	src
 
-SRC		:=	\
+SRC	:=	\
 	main.cpp \
-	utils.cpp
+	parser.cpp \
+	CtrlVar.cpp \
+	jacobsthal_diff.cpp \
+	MemoryChunk.cpp \
+	print_array.cpp
 
-SRC		:= $(addprefix $(SRC_DIR)/, $(SRC))
+SRC	:= $(addprefix $(SRC_DIR)/, $(SRC))
 
 # **************************************************************************** #
 #    Dependencies                                                              #
 # **************************************************************************** #
 
-INC_DIR		:=	src/include
+INC_DIR	:=	src/include
 
-LIB_DIR		:=	src/lib
+LIB_DIR	:=	src/lib
 
 # **************************************************************************** #
 #    Build                                                                     #
 # **************************************************************************** #
 
 OBJ_DIR :=	obj
-OBJ		:=	$(SRC:$(SRC_DIR)/%.cpp=$(OBJ_DIR)/%.o)
-DEP		:=	$(OBJ:.o=.d)
+OBJ	:=	$(SRC:$(SRC_DIR)/%.cpp=$(OBJ_DIR)/%.o)
+DEP	:=	$(OBJ:.o=.d)
 
-CC		:=	c++
+CC	:=	c++
 FLAGS	:=	-Wall -Wextra -Werror -std=c++98
 INCLUDE	:=	$(addprefix -I , $(INC_DIR)) -MMD -MP
-LIB		:=	$(addprefix -I , $(LIB_DIR)) -MMD -MP
+LIB	:=	$(addprefix -I , $(LIB_DIR)) -MMD -MP
 
-# DEBUG	=
 DEBUG	=	-O3
-MSG		=
+MSG	=
 SANITIZE=
 
 # **************************************************************************** #
 #    Misc                                                                      #
 # **************************************************************************** #
 
-RM			:= rm -rf
+RM		:= rm -rf
 
-RED			:= $(shell tput setaf 1)
+RED		:= $(shell tput setaf 1)
 GREEN		:= $(shell tput setaf 2)
 YELLOW		:= $(shell tput setaf 3)
 BLUE		:= $(shell tput setaf 4)
