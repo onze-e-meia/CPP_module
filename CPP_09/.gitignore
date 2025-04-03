@@ -1,6 +1,9 @@
 # dir
 obj/
 trash/
+TRASH/
+valid_tests/
+swap_test/
 
 # File extensions
 *.o

@@ -18,7 +18,7 @@
 #include <ctime>
 #include "lib/parser.hpp"
 #include "lib/CtrlVar.hpp"
-#include "include/MemoryChunk.hpp"
+#include "include/PmergeMe.hpp"
 #include "lib/jacobsthal_diff.hpp"
 #include "lib/color.hpp"
 
@@ -43,11 +43,17 @@ int	main(int argc, char **argv) {
 		}
 	} else {
 		std::cerr
-			<< BOLD L_RED "PmergeMe usage: " RST
-			<< H_GRN "./PmergeMe " H_BLU "arg_1 arg_2 arg_3 ... arg_n" RENDL
-			<< " (e.g.: ./PmergeMe 90 10 50)" ENDL
-			<< " (e.g.: ./PmergeMe $(shuf -i 0-99 -n 10)" << ENDL
-			<< " Need at least two args" RENDL;
+			<< BOLD COP " >> PmergeMe usage: " RST
+			<< "./PmergeMe " H_BLU "arg_1 arg_2 arg_3 ... arg_n" RENDL
+			<< " e.g.: ./PmergeMe 90 7 10 50" ENDL
+			<< " e.g.: ./PmergeMe $(shuf -i0-99 -n16)" TAB H_GRN "#non-repeating numbers." << RENDL
+			<< " e.g.: ./PmergeMe $(shuf -i0-99 -n16 -r)" TAB H_GRN "#repeating numbers." << RENDL
+			<< " e.g.: ./PmergeMe $(seq 15 -1 0)" TAB H_GRN "#reverse sequence numbers." << RENDL
+			<< COP " Need at least two args." RENDL;
+			// paste -d'\n' <(seq 10 -2 0) <(seq 1 2 10)
+			// paste -d'\n' <(seq 9 -1 5) <(seq 0 1 4)
+			// paste -d'\n' <(seq 9 -2 0) <(seq 0 2 9)
+
 		return (EXIT_FAILURE);
 	}
 

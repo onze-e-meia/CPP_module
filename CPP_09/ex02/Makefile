@@ -27,7 +27,7 @@ SRC	:=	\
 	parser.cpp \
 	CtrlVar.cpp \
 	jacobsthal_diff.cpp \
-	MemoryChunk.cpp \
+	PmergeMe.cpp \
 	print_array.cpp
 
 SRC	:= $(addprefix $(SRC_DIR)/, $(SRC))
@@ -45,16 +45,17 @@ LIB_DIR	:=	src/lib
 # **************************************************************************** #
 
 OBJ_DIR :=	obj
-OBJ	:=	$(SRC:$(SRC_DIR)/%.cpp=$(OBJ_DIR)/%.o)
-DEP	:=	$(OBJ:.o=.d)
+OBJ		:=	$(SRC:$(SRC_DIR)/%.cpp=$(OBJ_DIR)/%.o)
+DEP		:=	$(OBJ:.o=.d)
 
-CC	:=	c++
+CC		:=	c++
 FLAGS	:=	-Wall -Wextra -Werror -std=c++98
 INCLUDE	:=	$(addprefix -I , $(INC_DIR)) -MMD -MP
-LIB	:=	$(addprefix -I , $(LIB_DIR)) -MMD -MP
+LIB		:=	$(addprefix -I , $(LIB_DIR)) -MMD -MP
 
-DEBUG	=	-O3
-MSG	=
+# DEBUG	=	-O3
+DEBUG	=
+MSG		=
 SANITIZE=
 
 # **************************************************************************** #
@@ -63,7 +64,7 @@ SANITIZE=
 
 RM		:= rm -rf
 
-RED		:= $(shell tput setaf 1)
+RED			:= $(shell tput setaf 1)
 GREEN		:= $(shell tput setaf 2)
 YELLOW		:= $(shell tput setaf 3)
 BLUE		:= $(shell tput setaf 4)
