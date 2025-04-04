@@ -1,12 +1,10 @@
 
 
-#ifndef MEMORYMANGEMENT_HPP
-# define MEMORYMANGEMENT_HPP
-
-# include <cstddef>
-# include "typedef.hpp"
-# include "../lib/CtrlVar.hpp"
-# include "../lib/color.hpp"
+#include <vector>
+#include <deque>
+#include <list>
+#include "typedef.hpp"
+#include "../lib/CtrlVar.hpp"
 
 // ==============================
 // Memory Management Templates
@@ -14,12 +12,8 @@
 // These templates handle the initialization and deallocation
 // of containers or dynamically allocated arrays for PmergeMe.
 
-// Forward declaration of the CntType template for specialization
-template <typename Cnt>
-struct Memory;
-
 // -------------------------------------------------------------------------------
-// Generic template for STL containers like std::vector, std::deque, std::list.
+// Generic template for STL containers like std::vector, std::deque, std::list
 // -------------------------------------------------------------------------------
 template <typename Cnt>
 struct Memory {
@@ -31,7 +25,7 @@ struct Memory {
 	static void	populate(sz_t vecSize, const std::vector<int> &parsedInput, Cnt &input) {
 		typename Cnt::iterator it = input.begin();
 		for (sz_t i = 0; i < vecSize; ++i)
-			*(it++) = parsedInput[i];
+			*(it++) = parsedInput.at(i);
 	}
 
 	// Since these containers handle their own memory, no cleanup is needed.
@@ -43,7 +37,7 @@ struct Memory {
 };
 
 // --------------------------------------------------------------
-// Specialization for dynamically allocated int arrays (int*).
+// Specialization for dynamically allocated int arrays (int*)
 // --------------------------------------------------------------
 template <>
 struct Memory<int*> {
@@ -57,16 +51,14 @@ struct Memory<int*> {
 
 	static void populate(sz_t vecSize, const std::vector<int> &parsedInput, int *input) {
 		for (sz_t i = 0; i < vecSize; ++i)
-			input[i] = parsedInput[i];
+			input[i] = parsedInput.at(i);
 	}
 
 	// Frees the allocated memory when the container is no longer needed.
 	static void	clear(Ctrl var, int *input, int *swap) {
-		if (var._vecSize > 0) {
+		if (var._cntSize > 0) {
 			delete[] input;
 			delete[] swap;
 		}
 	}
 };
-
-#endif

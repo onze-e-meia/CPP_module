@@ -26,7 +26,6 @@ SRC	:=	\
 	main.cpp \
 	parser.cpp \
 	CtrlVar.cpp \
-	jacobsthal_diff.cpp \
 	PmergeMe.cpp \
 	print_array.cpp
 

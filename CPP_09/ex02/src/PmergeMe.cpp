@@ -1,150 +1,26 @@
 
 
-#include <cstddef>
-#include <cstring>
-#include <iostream>
-#include <ctime>
-// #include "lib/jacobsthal_diff.hpp"
-#include "include/PmergeMe.hpp"
-#include "lib/color.hpp"
-
 #include <vector>
 #include <deque>
 #include <list>
+#include "include/PmergeMe.hpp"
 
-#define CLOCKS_PER_MS	1000
-
-void	array_Ford_Johnson(sz_t vecSize, const std::vector<int> &parsedInput) {
-	Ctrl	var(0, vecSize);
-	// int		*input = new int[vecSize];
-	// int		*swap = new int[vecSize];
-
-	// std::vector<int>	input(vecSize), swap(vecSize);
-
-	// for (sz_t i = 0; i < vecSize; ++i)
-	// 	input[i] = parsedInput[i];
-
-	// INT_PTR
-	std::cout << ENDL GRN " ___PTR_COPY___: " ENDL;
-	PmergeMe<int*>				intPtr(vecSize, parsedInput);
-	for (sz_t i = 0; i < vecSize; ++i)
-		std::cout << intPtr.getInput()[i] << " ";
-	std::cout << ENDL;
-
-	// PmergeMe<int*> xxxx = PmergeMe<int*>(vecSize, parsedInput);
-	// intPtr = intPtr;
-
-	clock_t	start0 = clock();
-	intPtr.PmergeMe<int*>::startSort();
-	clock_t	end0 = clock();
-
-	// VECTOR
-	std::cout << ENDL GRN " ___VECTOR___: " ENDL;
-	PmergeMe<std::vector<int> >	vector(vecSize, parsedInput);
-	// for (sz_t i = 0; i < vecSize; ++i)
-	// 	std::cout << vector.getInput()[i] << " ";
-	// std::cout << ENDL;
-
-	clock_t	start1 = clock();
-	vector.PmergeMe<std::vector<int> >::startSort();
-	clock_t	end1 = clock();
-
-	// DEQUE
-	std::cout << ENDL GRN " ___DEQUE___: " ENDL;
-	PmergeMe<std::deque<int> >	deque(vecSize, parsedInput);
-	// for (sz_t i = 0; i < vecSize; ++i)
-	// 	std::cout << deque.getInput()[i] << " ";
-	// std::cout << ENDL;
-
-	clock_t	start2 = clock();
-	deque.PmergeMe<std::deque<int> >::startSort();
-	clock_t	end2 = clock();
-
-	// LIST
-	std::cout << ENDL GRN " ___LIST___ : " ENDL;
-	PmergeMe<std::list<int> >	list(vecSize, parsedInput);
-	std::list<int>::iterator	it = list.getInput().begin();
-	// for (sz_t i = 0; i < vecSize; ++i) {
-	// 	std::cout << *it << " ";
-	// 	std::advance(it, 1);
-	// }
-	// std::cout << ENDL;
-
-	clock_t	start3 = clock();
-	list.PmergeMe<std::list<int> >::startSort();
-	clock_t	end3 = clock();
-
-	std::cout << "Time to process a range of " << var._vecSize << " elements with INT_PTR: "
-		<< static_cast<double>(end0 - start0) / CLOCKS_PER_MS << "ms" ENDL;
-
-	std::cout << "Time to process a range of " << var._vecSize << " elements with VECTOR: "
-		<< static_cast<double>(end1 - start1) / CLOCKS_PER_MS << "ms" ENDL;
-
-	std::cout << "Time to process a range of " << var._vecSize << " elements with DEQUE: "
-		<< static_cast<double>(end2 - start2) / CLOCKS_PER_MS << "ms" ENDL;
-
-	std::cout << "Time to process a range of " << var._vecSize << " elements with LIST: "
-		<< static_cast<double>(end3 - start3) / CLOCKS_PER_MS << "ms" ENDL;
-
-	int	b;
-	b = 1;
-	for (sz_t i = 0; i < var._vecSize - 1; ++i) {
-		if (intPtr.getInput()[i] > intPtr.getInput()[i + 1]) {
-			std::cout << ENDL RED "FALSE AT index: " << i << " | " << intPtr.getInput()[i] << RENDL;
-			b = 0; break ; }
-	}
-	if (b) 	std::cout << ENDL BOLD GRN ">>>>>>>>> INT_PTR ALL GOOD!" RENDL;
-	for (sz_t i = 0; i < vecSize; ++i)
-		std::cout << intPtr.getInput()[i] << " ";
-	std::cout << ENDL;
-
-	b = 1;
-	for (sz_t i = 0; i < var._vecSize - 1; ++i) {
-		if (vector.getInput()[i] > vector.getInput()[i + 1]) {
-			std::cout << ENDL RED "FALSE AT index: " << i << " | " << vector.getInput()[i] << RENDL;
-			b = 0; break ; }
-	}
-	if (b) 	std::cout << ENDL BOLD GRN ">>>>>>>>> VECTOR ALL GOOD!" RENDL;
-	for (sz_t i = 0; i < vecSize; ++i)
-		std::cout << vector.getInput()[i] << " ";
-	std::cout << ENDL;
-
-	b = 1;
-	for (sz_t i = 0; i < var._vecSize - 1; ++i) {
-		if (deque.getInput()[i] > deque.getInput()[i + 1]) {
-			std::cout << ENDL RED "FALSE AT index: " << i << " | " << deque.getInput()[i] << RENDL;
-			b = 0; break ; }
-	}
-	if (b) std::cout << ENDL BOLD GRN ">>>>>>>>> DEQUE ALL GOOD!" RENDL;
-	for (sz_t i = 0; i < vecSize; ++i)
-		std::cout << deque.getInput()[i] << " ";
-	std::cout << ENDL;
-
-	b = 1;
-	it = list.getInput().begin();
-	std::list<int>::iterator	next = list.getInput().begin();
-	std::advance(next, 1);
-	for (sz_t i = 0; i < var._vecSize - 1; ++i) {
-		if (*it > *next) {
-			std::cout << ENDL RED "LIST FALSE AT index: " << i << " | " << *it << RENDL;
-			b = 0; 	break ; }
-		it = next;
-		std::advance(next, 1);
-	}
-	if (b)
-		std::cout << ENDL BOLD GRN ">>>>>>>>> LIST ALL GOOD!" RENDL;
-	it = list.getInput().begin();
-	for (sz_t i = 0; i < vecSize; ++i) {
-		std::cout << *it << " ";
-		std::advance(it, 1);
-	}
-	std::cout << ENDL;
-}
-
-sz_t	movesLeft_to_do(sz_t totalMoves, sz_t move, sz_t jacob_diff) {
-	sz_t partialMove
-		= static_cast<int>(totalMoves) - (static_cast<int>(move) + static_cast<int>(jacob_diff)) > 0
-		? jacob_diff
-		: totalMoves - move;
-	return (partialMove);
-}
+const int			CLOCKS_PER_MS = 1000;
+const std::string	INT_PTR_TYPE(typeid(int*).name());
+const std::string	VECTOR_TYPE(typeid(std::vector<int>).name());
+const std::string	DEQUE_TYPE(typeid(std::deque<int>).name());
+const std::string	LIST_TYPE(typeid(std::list<int>).name());
+const char 			*CNT_NAMES[4] = {"Int Array", "Vector", "Deque", "List"};
+const std::size_t	JACOB_DIFF[] = {
+	2u, 2u, 6u, 10u, 22u, 42u, 86u, 170u, 342u, 682u, 1366u,
+	2730u, 5462u, 10922u, 21846u, 43690u, 87382u, 174762u, 349526u, 699050u,
+	1398102u, 2796202u, 5592406u, 11184810u, 22369622u, 44739242u, 89478486u,
+	178956970u, 357913942u, 715827882u, 1431655766u, 2863311530u, 5726623062u,
+	11453246122u, 22906492246u, 45812984490u, 91625968982u, 183251937962u,
+	366503875926u, 733007751850u, 1466015503702u, 2932031007402u, 5864062014806u,
+	11728124029610u, 23456248059222u, 46912496118442u, 93824992236886u, 187649984473770u,
+	375299968947542u, 750599937895082u, 1501199875790165u, 3002399751580331u,
+	6004799503160661u, 12009599006321322u, 24019198012642644u, 48038396025285288u,
+	96076792050570576u, 192153584101141152u, 384307168202282304u, 768614336404564608u,
+	1537228672809129216u, 3074457345618258432u, 6148914691236516864u
+};

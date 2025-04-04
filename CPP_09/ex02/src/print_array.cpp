@@ -24,7 +24,7 @@
 
 // 	int8_t vd = before ? 1 : -1;
 // 	int8_t hd = 0;
-// 	for (std::size_t i = 0, groupNb = 0; i <  var._vecSize; ++i) {
+// 	for (std::size_t i = 0, groupNb = 0; i <  var._cntSize; ++i) {
 // 		hd = groupNb < 10 ? 0 : 1;
 
 // 		if (i < var._nbElements_noLeftOver) {

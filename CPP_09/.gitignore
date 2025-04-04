@@ -4,6 +4,8 @@ trash/
 TRASH/
 valid_tests/
 swap_test/
+ex02_backup/
+.vscode/
 
 # File extensions
 *.o

@@ -37,7 +37,7 @@ void	parse(int argc, char **argv, std::vector<int> &parsedInput) {
 
 inline std::string errorMsg(const char *msg, const char *arg, int i) {
 	std::ostringstream oss;
-	oss << BOLD RED "Error: " RST << msg << H_BLU " {" H_GRN << arg << H_BLU "}" RST " at position " << i << RENDL;
+	oss << BOLD RED "Error: " RST << msg << H_BLU " {" L_RED << arg << H_BLU "}" RST " at position " << i << RENDL;
 	return oss.str();
 }
 
