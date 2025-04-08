@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <cmath>
+#include <limits.h>
 #include <cstddef>
 #include <cstdlib>
 #include <sstream>
@@ -28,15 +28,24 @@ static void	isValidInput(const std::string &input) {
 	if (index != NPOS) {
 		std::ostringstream oss;
 		oss << L_RED "Error: " RST "Invalid char " << "[" << input.at(index) << "]"
-			<< " at position " << index;
+			<< " at position " << index << ENDL
+			<< L_RED "Invalid Result!" RST;
 		throw (std::runtime_error(oss.str()));
 	}
 }
 
-int	RPN::plus::operator()(int top, int bellow) {return (bellow + top); };
-int RPN::minus::operator()(int top, int bellow) {return (bellow - top); };
-int RPN::multiplies::operator()(int top, int bellow) {return (bellow * top); };
-int RPN::divides::operator()(int top, int bellow) {return (bellow / top); };
+int	RPN::plus::operator()(int top, int bellow) {return (top + bellow); };
+int RPN::minus::operator()(int top, int bellow) {return (top - bellow); };
+int RPN::multiplies::operator()(int top, int bellow) {return (top * bellow); };
+int RPN::divides::operator()(int top, int bellow) {
+	if (bellow == 0) {
+		std::ostringstream	oss;
+		oss << L_RED "Error: " RST "Division by 0 {" << top << "/" << bellow << "}" ENDL
+			<< L_RED "Invalid Result!" RST;
+		throw (std::runtime_error(oss.str()));
+	}
+	return (top / bellow);
+};
 
 void	RPN::getOperator(const char *token) {
 	switch (*token) {
@@ -70,15 +79,15 @@ RPN &RPN::operator=(const RPN &other) {
 RPN::~RPN(void) {}
 
 int RPN::pop() {
-			if (!this->empty()) {
-				int	nb = this->top();
-				std::stack<int>::pop();
-				return (nb);
-			}
-			std::ostringstream oss;
-			oss << L_RED "Error: " RST << "Stack is empty, cannot pop!";
-			throw (std::runtime_error("Stack is empty, cannot pop!"));
-		}
+	if (!this->empty()) {
+		int	nb = this->top();
+		std::stack<int>::pop();
+		return (nb);
+	}
+	std::ostringstream oss;
+	oss << L_RED "Error: " RST << "Stack is empty, cannot pop!";
+	throw (std::runtime_error("Stack is empty, cannot pop!"));
+}
 
 RPN::const_it	RPN::begin() const {return (this->c.begin());}
 RPN::const_it	RPN::end() const {return (this->c.end());}
@@ -94,23 +103,24 @@ int	RPN::solver(void) {
 		while (iss >> token) {
 			if (token.size() != 1) {
 				std::ostringstream oss;
-				oss << L_RED "Error: " RST "Invalid input format [" << token << "]";
+				oss << L_RED "Error: " RST "Invalid input format [" << token << "]" ENDL
+					<< L_RED "Invalid Result!" RST;
 				throw (std::runtime_error(oss.str()));
 			}
 			getOperator(token.c_str());
 		}
-		if (this->size() != 1) {
+		if (size() != 1) {
 			std::ostringstream oss;
 			oss << L_RED "Error: " RST << "Stack [" << *this << "] "
-				<< "lack operators to do numbers";
+				<< "lack operators to do numbers" ENDL
+				<< L_RED "Invalid Result!" RST;
 			throw (std::runtime_error(oss.str()));
 		}
 	} catch (const std::exception &e) {
 		std::cerr << e.what() << ENDL;
-		return (NAN);
+		return (INT_MIN);
 	}
-	std::cout << H_GRN "Result: " RST << this->top() << ENDL;
-	return (11);
+	return (top());
 }
 
 std::ostream &operator<<(std::ostream &os, RPN &rpn) {

@@ -18,7 +18,8 @@
 #define PRINT_TEST(test)	std::cout << ENDL COP << test << RENDL
 
 int	main(int argc, char ** argv) {
-	// std::system("clear");
+	// if(std::system("clear"))
+	// 	return (EXIT_FAILURE);
 
 	if (argc != 2) {
 		std::cerr << D_BLU "RPN: " RST "number of argumnets must be equal to 1, "
@@ -27,7 +28,7 @@ int	main(int argc, char ** argv) {
 	}
 	RPN	rpn(argv[1]);
 	float	nb = rpn.solver();
-	nb  = 1;	
+	std::cout << H_GRN "Result: " RST << nb << DENDL;
 	return (EXIT_SUCCESS);
 
 }

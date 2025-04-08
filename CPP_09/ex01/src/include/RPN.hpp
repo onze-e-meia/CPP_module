@@ -41,7 +41,8 @@ class	RPN: public std::stack<int> {
 				std::ostringstream oss;
 				oss << L_RED "Error: " RST << "Stack [" << *this << "] "
 					<< "lack number to do operation '"
-					<< token << "'";
+					<< token << "'" ENDL
+					<< L_RED "Invalid Result!" RST;
 				throw (std::runtime_error(oss.str()));
 			}
 			this->push(op(pop(), pop()));

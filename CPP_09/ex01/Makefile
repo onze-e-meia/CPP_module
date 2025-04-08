@@ -134,6 +134,15 @@ inputs:	## Run with testes
 	./$(NAME) "7 7 * 7 -"
 	./$(NAME) "1 2 * 2 / 2 * 2 4 - +"
 	./$(NAME) "(1 + 1)"
+	./$(NAME) "2 0 /"
+	./$(NAME) "2 1 0"
+	./$(NAME) "2 + 1"
+	./$(NAME) "8 9 * 9 - 9 - 9 - 4 - 1 +"
+	./$(NAME) "9 8 * 4 * 4 / 2 + 9 - 8 - 8 - 1 - 6 -"
+	./$(NAME) "1 2 * 2 / 2 + 5 * 6 - 1 3 * - 4 5 * * 8 /"
+	./$(NAME) "2 1 - 2 2 / + 1 1 - +"
+	./$(NAME) "5 3 1 - *"
+	./$(NAME) "5 3 - 1 *"
 
 help:	## Show this message
 	echo "$(BOLD)Usage: make [<name>=<value>...]$(RESET) $(BOLD)$(CYAN)[target...]$(RESET)"
