@@ -10,7 +10,7 @@
 #include <list>
 #include <algorithm>
 #include "typedef.hpp"
-#include "../lib/CtrlVar.hpp"
+#include "../include/CtrlVar.hpp"
 #include "../lib/color.hpp"
 
 // ==============================
@@ -19,11 +19,9 @@
 // These templates handle the movement and swapping of data
 // within containers or dynamically allocated arrays for PmergeMe.
 
-
 // -------------------------------------------------------------------------------
 // Generic template for STL containers like std::vector, std::deque, std::list
 // -------------------------------------------------------------------------------
-
 template <typename Cnt>
 struct	Move {
 	typedef	typename Cnt::iterator	it_t;
@@ -35,11 +33,16 @@ struct	Move {
 	}
 
 	// Performs an in-place swap of a chunk of data within the container.
-	static void	swapPair(Ctrl &var, Cnt &main, Cnt &pend, sz_t i) {
+	static void	swapPair(Ctrl &var, Cnt &main, Cnt, sz_t i, bool first) {
 		static	sz_t	index = 0;
 		static	it_t	bi = main.begin();
 		static	it_t	ai = at(main, var._order);
-		(void)pend;
+
+		if (!first) {
+			index = 0;
+			bi = main.begin();
+			ai = at(main, var._order);
+		}
 
 		if (i == var._pairStart) {
 			bi = main.begin();
@@ -65,9 +68,8 @@ struct	Move {
 		main.insert(main.begin(), pend.begin(), at(pend, pairSize));
 	}
 
-	static void	insertAs(sz_t order, sz_t ai, sz_t copied, Cnt &main, Cnt &pend) {
+	static void	insertAs(sz_t order, sz_t ai, sz_t, Cnt &main, Cnt &pend) {
 		static	it_t	aFirst, aLast;
-		(void)copied;
 
 		if (ai == 1) {
 			aFirst = at(pend, (2 * ai + 1) * order);
@@ -82,13 +84,11 @@ struct	Move {
 		main.insert(main.end(), aFirst, aLast);
 	}
 
-	static void	insertBs(sz_t order, sz_t iBnry, sz_t rev_bi, sz_t copied, Cnt &main, Cnt &pend, sz_t displace) {
+	static void	insertBs(sz_t order, sz_t iBnry, sz_t revBi, sz_t, Cnt &main, Cnt &pend, sz_t displace) {
 		static	it_t	bFirst, bLast;
-		(void)copied;
-		(void)displace;
 
 		if (displace == 0) {
-			bFirst = at(pend, 2 * rev_bi * order);
+			bFirst = at(pend, 2 * revBi * order);
 			bLast = bFirst;
 			std::advance(bLast, order);
 		} else {
@@ -100,10 +100,9 @@ struct	Move {
 		main.insert(at(main, iBnry * order), bFirst, bLast);
 	}
 
-	static void	insertLeftOver(sz_t leftOverElements, sz_t copied, Cnt &main, Cnt &pend) {
+	static void	insertLeftOver(sz_t leftOverElements, sz_t, Cnt &main, Cnt &pend) {
 		if (leftOverElements) {
 			it_t	pendStart, pendEnd;
-			(void)copied;
 
 			pendEnd = pend.end();
 			pendStart = pendEnd;
@@ -135,18 +134,17 @@ struct	Move {
 		*swap = *tempCnt;
 	}
 
-	inline static sz_t	displace(sz_t disp, sz_t k) {
-		(void)disp;
+	inline static sz_t	displace(sz_t, sz_t k) {
 		return (k);
 	}
 
-	static void	checkSort(Cnt &main, sz_t cntSize) {
+	static bool	checkSort(Cnt &main, sz_t cntSize) {
 		sz_t	printTo = 10;
 		bool	sorted = true;
 		it_t	it = main.begin();
 		it_t	next = at(main, 1);
 
-		if (cntSize < 10)
+		if (cntSize < printTo)
 			printTo = cntSize;
 		for (sz_t i = 0; i < cntSize - 1; ++i) {
 			if (*it > *next) {
@@ -168,8 +166,9 @@ struct	Move {
 		if (cntSize > 10)
 			std::cout << "[...]";
 		std::cout << ENDL;
-	}
 
+		return (sorted);
+	}
 };
 
 // --------------------------------------------------------------
@@ -184,7 +183,7 @@ struct	Move<int*> {
 	}
 
 	// Uses raw pointers for memory manipulation and performs an in-place swap.
-	static void	swapPair(Ctrl &var, int *main, int *pend, sz_t i) {
+	static void	swapPair(Ctrl &var, int *main, int *pend, sz_t i, bool) {
 		sz_t ai = i + 1;
 		sz_t bi = i - (var._pairStart);
 		std::memcpy(pend, main + bi, var._order * sizeof(int));
@@ -200,12 +199,12 @@ struct	Move<int*> {
 		std::memcpy(main + copied, pend + ((2 * ai + 1) * order), order * sizeof(int));
 	}
 
-	static void	insertBs(sz_t order, sz_t iBnry, sz_t rev_bi, sz_t copied, int *main, int *pend, sz_t displace) {
+	static void	insertBs(sz_t order, sz_t iBnry, sz_t revBi, sz_t copied, int *main, int *pend, sz_t displace) {
 		if (!displace) {
 			sz_t	toMove = copied - iBnry * order;
 			std::memmove(main + (iBnry + 1) * order, main + (iBnry * order), toMove * sizeof(int));
 		}
-		std::memcpy(main + iBnry * order, pend + 2 * rev_bi * order, order * sizeof(int));
+		std::memcpy(main + iBnry * order, pend + 2 * revBi * order, order * sizeof(int));
 	}
 
 	static void	insertLeftOver(sz_t leftOverElements, sz_t copied, int *main, int *pend) {
@@ -232,16 +231,15 @@ struct	Move<int*> {
 		*swap = tempArray;
 	}
 
-	inline static sz_t	displace(sz_t disp, sz_t k) {
-		(void)k;
+	inline static sz_t	displace(sz_t disp, sz_t) {
 		return (disp);
 	}
 
-	static void	checkSort(int *main, sz_t cntSize) {
+	static bool	checkSort(int *main, sz_t cntSize) {
 		sz_t	printTo = 10;
 		bool	sorted = true;
 
-		if (cntSize < 10)
+		if (cntSize < printTo)
 			printTo = cntSize;
 		for (sz_t i = 0; i < cntSize - 1; ++i) {
 			if (main[i] > main[i + 1]) {
@@ -258,5 +256,7 @@ struct	Move<int*> {
 		if (cntSize > 10)
 			std::cout << "[...]";
 		std::cout << ENDL;
+
+		return (sorted);
 	}
 };

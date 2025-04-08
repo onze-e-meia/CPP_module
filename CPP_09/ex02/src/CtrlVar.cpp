@@ -2,7 +2,7 @@
 #include <iostream>
 #include "typedef.hpp"
 #include "lib/color.hpp"
-#include "lib/CtrlVar.hpp"
+#include "include/CtrlVar.hpp"
 
 
 Ctrl::Ctrl(void):
@@ -16,6 +16,17 @@ Ctrl::Ctrl(sz_t level, sz_t cntSize):
 	_order = 1u << _level;
 	initCtrl(_order);
 }
+
+Ctrl::Ctrl(const Ctrl &other):
+	_level(other._level),
+	_cntSize(other._cntSize),
+	_order(other._order),
+	_pairStart(other._pairStart),
+	_pairSize(other._pairSize),
+	_nb_pairs(other._nb_pairs),
+	_nb_unpaired(other._nb_unpaired),
+	_leftOverElements(other._leftOverElements),
+	_nbElements_noLeftOver(other._nbElements_noLeftOver) {}
 
 void	Ctrl::initCtrl(sz_t order) {
 	_pairStart = order - 1;
@@ -36,14 +47,4 @@ void	Ctrl::downOrder(void) {
 	--_level;
 	_order >>= 1u;
 	initCtrl(_order);
-}
-
-void	print_status(const Ctrl &c) {
-	std::cout
-		<< " ARRAYS_SIZE: " << c._cntSize << ENDL
-		<< " ORDER: " << c._order << " PAIR_START: " << c._pairStart << ENDL
-		<< " PAIR_SIZE: " << c._pairSize << " NB_OF_PAIRS: " << c._nb_pairs << ENDL
-		<< " NB_UNPAIRED_ELEMENTS: " << c._nb_unpaired << ENDL
-		<< " LEFTOVER_ELEMENTS: " << c._leftOverElements << ENDL
-		<< " NB_ELEMENTS_WITH_NO LEFTOVER :" << c._nbElements_noLeftOver << ENDL;
 }

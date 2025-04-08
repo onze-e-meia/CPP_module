@@ -1,10 +1,11 @@
 
-
+#include <cstring>
 #include <vector>
 #include <deque>
 #include <list>
+#include <algorithm>
 #include "typedef.hpp"
-#include "../lib/CtrlVar.hpp"
+#include "../include/CtrlVar.hpp"
 
 // ==============================
 // Memory Management Templates
@@ -18,21 +19,20 @@
 template <typename Cnt>
 struct Memory {
 	// Initializes a container with the given size.
-	static Cnt	init(sz_t vecSize) {
-		return (Cnt(vecSize, 0));
+	static Cnt	init(sz_t cntSize) {
+		return (Cnt(cntSize, 0));
 	}
 
-	static void	populate(sz_t vecSize, const std::vector<int> &parsedInput, Cnt &input) {
-		typename Cnt::iterator it = input.begin();
-		for (sz_t i = 0; i < vecSize; ++i)
-			*(it++) = parsedInput.at(i);
+	static void	populate(sz_t, const std::vector<int> &parsedInput, Cnt &input) {
+		std::copy(parsedInput.begin(), parsedInput.end(), input.begin());
+	}
+
+	static void	copyCnt(sz_t, const Cnt &other, Cnt &input) {
+		std::copy(other.begin(), other.end(), input.begin());
 	}
 
 	// Since these containers handle their own memory, no cleanup is needed.
-	static void	clear(Ctrl var, Cnt input, Cnt swap) {
-		(void)var;
-		(void)input;
-		(void)swap;
+	static void	clear(Ctrl, Cnt, Cnt) {
 	}
 };
 
@@ -41,17 +41,20 @@ struct Memory {
 // --------------------------------------------------------------
 template <>
 struct Memory<int*> {
-	// Allocates memory dynamically for 'vecSize' integers.
-	static int	*init(sz_t vecSize) {
-		if (vecSize > 0) {
-			return (new int[vecSize]);
+	// Allocates memory dynamically for 'cntSize' integers.
+	static int	*init(sz_t cntSize) {
+		if (cntSize > 0) {
+			return (new int[cntSize]);
 		}
 		return (NULL);
 	}
 
-	static void populate(sz_t vecSize, const std::vector<int> &parsedInput, int *input) {
-		for (sz_t i = 0; i < vecSize; ++i)
-			input[i] = parsedInput.at(i);
+	static void populate(sz_t cntSize, const std::vector<int> &parsedInput, int *input) {
+		std::memcpy(input, parsedInput.data(), cntSize * sizeof(int));
+	}
+
+	static void	copyCnt(sz_t cntSize, int* other, int* input) {
+		std::memcpy(input, other, cntSize * sizeof(int));
 	}
 
 	// Frees the allocated memory when the container is no longer needed.

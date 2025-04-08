@@ -52,9 +52,8 @@ FLAGS	:=	-Wall -Wextra -Werror -std=c++98
 INCLUDE	:=	$(addprefix -I , $(INC_DIR)) -MMD -MP
 LIB		:=	$(addprefix -I , $(LIB_DIR)) -MMD -MP
 
-# DEBUG	=	-O3
-DEBUG	=
-MSG		=
+DEBUG	=	-O3
+ARRAY	=
 SANITIZE=
 
 # **************************************************************************** #
@@ -79,7 +78,7 @@ RESET		:= $(shell tput sgr0)
 CLEAR		:= $(shell tput cuu1; tput el)
 TITLE		:= $(YELLOW)$(basename $(NAME))$(RESET)
 TITLE_LOOSE	:= $(TITLE) $(MAGENTA)disable Werror$(RESET)
-TITLE_MSG	:= $(TITLE) $(MAGENTA)with message$(RESET)
+TITLE_ARRAY	:= $(TITLE) $(MAGENTA)with print array$(RESET)
 TITLE_DEBUG	:= $(TITLE) $(MAGENTA)debug$(RESET)
 TITLE_ASAN	:= $(TITLE) $(MAGENTA)address sanitizer$(RESET)
 
@@ -95,20 +94,19 @@ endef
 all: $(NAME) ## Build the program
 
 $(NAME): $(OBJ)
-#	$(CC) $(SANITIZE) $(DEBUG) $(MSG) $(FLAGS) $(OBJ) -o $(NAME)
-	$(CC) $(MSG) $(FLAGS) $(OBJ) -o $(NAME)
+	$(CC) $(SANITIZE) $(DEBUG) $(ARRAY) $(FLAGS) $(OBJ) -o $(NAME)
 	$(call message,BINARY,$(NAME),$(BLUE))
 
 $(OBJ_DIR)/%.o: $(SRC_DIR)/%.cpp
 	mkdir -p $(dir $@)
-	$(CC) $(SANITIZE) $(DEBUG) $(MSG) $(FLAGS) $(INCLUDE) $(LIB) -c $< -o $@
+	$(CC) $(SANITIZE) $(DEBUG) $(ARRAY) $(FLAGS) $(INCLUDE) $(LIB) -c $< -o $@
 	$(call message,OBJECT,$@,$(GREEN))
 
 loose:	## Build the program ignoring warnings
 	$(MAKE) TITLE="$(TITLE_LOOSE)" FLAGS="$(filter-out -Werror,$(FLAGS))"
 
-msg:	## Build the program with Constructor messages enabled
-	$(MAKE) TITLE="$(TITLE_MSG)" MSG="-DMSG"
+array:	## Build the program with Print Array function enabled
+	$(MAKE) TITLE="$(TITLE_ARRAY)" ARRAY="-DARRAY"
 
 debug:	## Build the program with Debug symbols
 	$(MAKE) TITLE="$(TITLE_DEBUG)" DEBUG=-"g3" FLAGS="$(filter-out -Werror,$(FLAGS))"
@@ -136,7 +134,7 @@ help:	## Show this message
 	grep -E '^[a-zA-Z_.%-]+:.*?## .*$$' Makefile \
 	| awk 'BEGIN {FS = ":.*?## "}; {printf "%2s$(CYAN)%-20s$(RESET) %s\n", "", $$1, $$2}'
 
-.PHONY: all debug loose clean fclean re run msg help
+.PHONY: all debug loose clean fclean re run array help
 .SILENT:
 .DELETE_ON_ERROR:
 

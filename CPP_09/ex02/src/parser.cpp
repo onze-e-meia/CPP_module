@@ -61,7 +61,6 @@ bool	isValidNumber(char *arg, std::size_t i) {
 				break ;
 			++temp;
 		}
-		// ???? arg += temp;  ????
 		++arg;
 	}
 

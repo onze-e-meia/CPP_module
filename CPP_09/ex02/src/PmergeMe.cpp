@@ -11,7 +11,7 @@ const std::string	VECTOR_TYPE(typeid(std::vector<int>).name());
 const std::string	DEQUE_TYPE(typeid(std::deque<int>).name());
 const std::string	LIST_TYPE(typeid(std::list<int>).name());
 const char 			*CNT_NAMES[4] = {"Int Array", "Vector", "Deque", "List"};
-const std::size_t	JACOB_DIFF[] = {
+const sz_t			JACOB_DIFF[] = {
 	2u, 2u, 6u, 10u, 22u, 42u, 86u, 170u, 342u, 682u, 1366u,
 	2730u, 5462u, 10922u, 21846u, 43690u, 87382u, 174762u, 349526u, 699050u,
 	1398102u, 2796202u, 5592406u, 11184810u, 22369622u, 44739242u, 89478486u,

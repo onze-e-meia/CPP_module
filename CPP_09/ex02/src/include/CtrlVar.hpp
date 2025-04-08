@@ -18,13 +18,11 @@ struct Ctrl {
 
 	Ctrl(void);
 	Ctrl(sz_t level, sz_t cntSize);
+	Ctrl(const Ctrl &other);
 
 	void		initCtrl(sz_t order);
 	void		upOrder(void);
 	void		downOrder(void);
 };
-
-// Helper Functions
-void print_status(const Ctrl &c);
 
 #endif

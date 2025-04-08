@@ -17,16 +17,17 @@
 #include <ctime>
 #include <algorithm>
 #include "lib/parser.hpp"
-#include "lib/CtrlVar.hpp"
 #include "include/PmergeMe.hpp"
 #include "lib/color.hpp"
 
 static void	printBefore(const std::vector<int> &parsedInput, sz_t cntSize);
 
 int	main(int argc, char **argv) {
-	// int	status = std::system("clear");
-	// if (status)
-	// 	return (EXIT_FAILURE);
+	#ifdef ARRAY
+		int	status = std::system("clear");
+		if (status)
+			return (EXIT_FAILURE);
+	#endif
 
 	std::size_t cntSize = argc - 1;
 	std::vector<int>	parsedInput(cntSize, 0);
@@ -49,11 +50,15 @@ int	main(int argc, char **argv) {
 		return (EXIT_FAILURE);
 	}
 
-	printBefore(parsedInput, cntSize);
+	printBefore(parsedInput, parsedInput.size());
 
 	PmergeMe<int*>	intArray(parsedInput);
 	intArray.PmergeMe<int*>::startSort();
 	std::cout << ENDL;
+
+	#ifdef ARRAY
+		return (EXIT_SUCCESS);
+	#endif
 
 	PmergeMe<std::vector<int> >	vector(parsedInput);
 	vector.PmergeMe<std::vector<int> >::startSort();
@@ -72,7 +77,7 @@ int	main(int argc, char **argv) {
 
 static void	printBefore(const std::vector<int> &parsedInput, sz_t cntSize) {
 	sz_t	printTo = 10;
-	if (cntSize < 10)
+	if (cntSize < printTo)
 		printTo = cntSize;
 	std::cout << COP "Before: " RST;
 	for (sz_t i = 0; i < printTo; ++i)
