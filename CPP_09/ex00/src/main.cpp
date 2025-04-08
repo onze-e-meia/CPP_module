@@ -16,17 +16,13 @@
 #include <iomanip>
 #include "include/BitcoinExchange.hpp"
 #include "lib/color.hpp"
-
-
-// #include <string>
-// #include <cstring>
-// #include <cstdlib>
 #include "include/utils.hpp"
 
 int	main(int argc, char **argv) {
 	setenv("TZ", "UTC-3", 1);
 	tzset();
-	std::system("clear");
+	if (std::system("clear"))
+		return (EXIT_FAILURE);
 
 	std::cout << std::fixed << std::setprecision(2);
 
