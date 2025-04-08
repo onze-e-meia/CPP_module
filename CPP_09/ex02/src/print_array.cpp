@@ -1,9 +1,18 @@
-
-
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   print_array.cpp                                    :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: tforster <tfforster@student.42sp.org.br    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/04/08 15:25:31 by tforster          #+#    #+#             */
+/*   Updated: 2025/04/08 15:25:52 by tforster         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
 #include <sstream>
-#include "../include/typedef.hpp"
-#include "../lib/print_array.hpp"
+#include "include/typedef.hpp"
+#include "lib/print_array.hpp"
 
 const sz_t	CNT_SIZE = 30;
 

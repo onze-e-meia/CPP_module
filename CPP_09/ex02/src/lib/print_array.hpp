@@ -1,7 +1,14 @@
-
-
-
-
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   print_array.hpp                                    :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: tforster <tfforster@student.42sp.org.br    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/04/08 15:38:51 by tforster          #+#    #+#             */
+/*   Updated: 2025/04/08 15:40:25 by tforster         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
 #ifndef PRINT_ARRAY_HPP
 # define PRINT_ARRAY_HPP
@@ -133,7 +140,7 @@ void	printArray(Ctrl &var, Cnt &container, bool split, bool index, sz_t len, con
 			if (i == start) {
 				std::cout << RST BOLD ORG ITALIC;
 				if (index) {
-					std::cout << C_VERT(1) << "b" << (groupNb + 1)
+					std::cout << C_VERT(1) << "b" << subscript(groupNb + 1)
 						<< C_VERT(-1) << C_HORZ(-(2 + hDidp));
 				}
 				std::cout << backGroundColor;
@@ -141,7 +148,7 @@ void	printArray(Ctrl &var, Cnt &container, bool split, bool index, sz_t len, con
 			else if (i == start + var._order) {
 				std::cout << RST BOLD ORG ITALIC;
 				if (index) {
-					std::cout << C_VERT(1) << "a" << (groupNb + 1)
+					std::cout << C_VERT(1) << "a" << subscript(groupNb + 1)
 						<< C_VERT(-1) << C_HORZ(-(2 + hDidp));
 				}
 				std::cout << backGroundColor;

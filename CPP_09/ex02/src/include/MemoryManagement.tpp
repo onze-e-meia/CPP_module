@@ -1,3 +1,14 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   MemoryManagement.tpp                               :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: tforster <tfforster@student.42sp.org.br    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/04/08 15:24:09 by tforster          #+#    #+#             */
+/*   Updated: 2025/04/08 15:27:12 by tforster         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
 #include <cstring>
 #include <vector>
@@ -5,7 +16,7 @@
 #include <list>
 #include <algorithm>
 #include "typedef.hpp"
-#include "../include/CtrlVar.hpp"
+#include "CtrlVar.hpp"
 
 // ==============================
 // Memory Management Templates

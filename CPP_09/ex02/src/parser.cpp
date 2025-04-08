@@ -1,9 +1,18 @@
-
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   parser.cpp                                         :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: tforster <tfforster@student.42sp.org.br    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/04/08 15:25:19 by tforster          #+#    #+#             */
+/*   Updated: 2025/04/08 15:25:24 by tforster         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
 #include <iostream>
 #include <sstream>
 #include <vector>
-// #include "typedef/typedef.hpp"
 #include "lib/parser.hpp"
 #include "lib/color.hpp"
 

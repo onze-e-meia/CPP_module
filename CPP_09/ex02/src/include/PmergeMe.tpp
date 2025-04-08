@@ -1,11 +1,24 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   PmergeMe.tpp                                       :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: tforster <tfforster@student.42sp.org.br    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/04/08 15:24:13 by tforster          #+#    #+#             */
+/*   Updated: 2025/04/08 15:36:52 by tforster         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
-
+#include <typeinfo>
+#include <string>
+#include <iomanip>
 #include "PmergeMe.hpp"
 #include "MemoryManagement.tpp"
 #include "DataManipulation.tpp"
-
-#include <string>
-#include <iomanip>
+#ifdef ARRAY
+# include "../lib/print_array.hpp"
+#endif
 
 // ============================================
 // Iterator and Dereference Helper Templates
@@ -92,8 +105,8 @@ void	PmergeMe<Cnt>::startSort(void) {
 		clock_t	end = clock();
 		std::cout
 			<< "Time to sort elements with " << CNT_NAMES[_id - 1] << ": "
-			<< static_cast<double>(end - start) / CLOCKS_PER_MS << "ms"
-			<< TAB "( Number of comparisons = " << _comparisons << " )" ENDL;
+			<< H_GRN << static_cast<double>(end - start) / CLOCKS_PER_MS << "ms" RST
+			<< TAB "( Number of comparisons = " H_GRN << _comparisons << " )" RENDL;
 		Cnt		&main = _input;
 		_isSorted = Move<Cnt>::checkSort(main, _var._cntSize);
 	}

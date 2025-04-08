@@ -1,7 +1,14 @@
-
-
-
-
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   DataManipulation.tpp                               :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: tforster <tfforster@student.42sp.org.br    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/04/08 15:23:58 by tforster          #+#    #+#             */
+/*   Updated: 2025/04/08 15:27:22 by tforster         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
 #include <cstring>
 #include <iostream>
@@ -10,7 +17,7 @@
 #include <list>
 #include <algorithm>
 #include "typedef.hpp"
-#include "../include/CtrlVar.hpp"
+#include "CtrlVar.hpp"
 #include "../lib/color.hpp"
 
 // ==============================

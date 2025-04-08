@@ -1,18 +1,23 @@
-
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   PmergeMe.hpp                                       :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: tforster <tfforster@student.42sp.org.br    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/04/08 15:23:41 by tforster          #+#    #+#             */
+/*   Updated: 2025/04/08 15:30:39 by tforster         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
 #ifndef PEMERGEME_HPP
 # define PEMERGEME_HPP
 
-# include <typeinfo>
-# include <iostream>
-# include <sstream>
+# include <string>
 # include <ctime>
 # include <vector>
-# include <deque>
-# include <list>
 # include "typedef.hpp"
-# include "../include/CtrlVar.hpp"
-# include "../lib/print_array.hpp"
+# include "CtrlVar.hpp"
 
 extern const int			CLOCKS_PER_MS;
 extern const std::string	INT_PTR_TYPE;

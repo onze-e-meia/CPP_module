@@ -1,9 +1,16 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   CtrlVar.cpp                                        :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: tforster <tfforster@student.42sp.org.br    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/04/08 15:24:25 by tforster          #+#    #+#             */
+/*   Updated: 2025/04/08 15:31:19 by tforster         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
-#include <iostream>
-#include "typedef.hpp"
-#include "lib/color.hpp"
 #include "include/CtrlVar.hpp"
-
 
 Ctrl::Ctrl(void):
 	_level(0), _cntSize(0) {

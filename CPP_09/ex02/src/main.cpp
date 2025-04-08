@@ -6,7 +6,7 @@
 /*   By: tforster <tfforster@student.42sp.org.br    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/16 16:16:48 by tforster          #+#    #+#             */
-/*   up_orderd: 2025/03/11 15:18:45 by tforster         ###   ########.fr     */
+/*   Updated: 2025/04/08 15:25:05 by tforster         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,6 @@
 #include <cstring>
 #include <iostream>
 #include <ctime>
-#include <algorithm>
 #include "lib/parser.hpp"
 #include "include/PmergeMe.hpp"
 #include "lib/color.hpp"
