@@ -6,7 +6,7 @@
 /*   By: tforster <tfforster@student.42sp.org.br    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/19 15:16:56 by tforster          #+#    #+#             */
-/*   Updated: 2025/02/21 17:39:42 by tforster         ###   ########.fr       */
+/*   Updated: 2025/04/08 15:15:12 by tforster         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,10 +28,10 @@ class	RPN: public std::stack<int> {
 	private:
 		std::string		_input;
 
-		struct plus			{ int operator()(int l, int r); };
-		struct minus		{ int operator()(int l, int r); };
-		struct multiplies	{ int operator()(int l, int r); };
-		struct divides		{ int operator()(int l, int r); };
+		struct plus			{ int operator()(int left, int right); };
+		struct minus		{ int operator()(int left, int right); };
+		struct multiplies	{ int operator()(int left, int right); };
+		struct divides		{ int operator()(int left, int right); };
 
 		void	getOperator(const char *token);
 
@@ -45,7 +45,9 @@ class	RPN: public std::stack<int> {
 					<< L_RED "Invalid Result!" RST;
 				throw (std::runtime_error(oss.str()));
 			}
-			this->push(op(pop(), pop()));
+			int	right = pop();
+			int	left = pop();
+			push(op(left, right));
 		}
 
 	public:

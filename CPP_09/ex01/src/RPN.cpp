@@ -6,12 +6,11 @@
 /*   By: tforster <tfforster@student.42sp.org.br    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/19 16:20:58 by tforster          #+#    #+#             */
-/*   Updated: 2025/02/21 17:38:25 by tforster         ###   ########.fr       */
+/*   Updated: 2025/04/08 15:19:01 by tforster         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <limits.h>
-#include <cstddef>
 #include <cstdlib>
 #include <sstream>
 #include <iostream>
@@ -34,17 +33,17 @@ static void	isValidInput(const std::string &input) {
 	}
 }
 
-int	RPN::plus::operator()(int top, int bellow) {return (top + bellow); };
-int RPN::minus::operator()(int top, int bellow) {return (top - bellow); };
-int RPN::multiplies::operator()(int top, int bellow) {return (top * bellow); };
-int RPN::divides::operator()(int top, int bellow) {
-	if (bellow == 0) {
+int	RPN::plus::operator()(int left, int right) {return (left + right); };
+int RPN::minus::operator()(int left, int right) {return (left - right); };
+int RPN::multiplies::operator()(int left, int right) {return (left * right); };
+int RPN::divides::operator()(int left, int right) {
+	if (right == 0) {
 		std::ostringstream	oss;
-		oss << L_RED "Error: " RST "Division by 0 {" << top << "/" << bellow << "}" ENDL
+		oss << L_RED "Error: " RST "Division by 0 {" << left << "/" << right << "}" ENDL
 			<< L_RED "Invalid Result!" RST;
 		throw (std::runtime_error(oss.str()));
 	}
-	return (top / bellow);
+	return (left / right);
 };
 
 void	RPN::getOperator(const char *token) {
@@ -53,8 +52,7 @@ void	RPN::getOperator(const char *token) {
 		case '-': process_operation(minus(), token); break;
 		case '*': process_operation(multiplies(), token); break;
 		case '/': process_operation(divides(), token); break;
-		default:
-			this->push(static_cast<int>(std::strtol(token, NULL, 10)));
+		default : push(*token - '0');
 	}
 }
 
@@ -89,10 +87,10 @@ int RPN::pop() {
 	throw (std::runtime_error("Stack is empty, cannot pop!"));
 }
 
-RPN::const_it	RPN::begin() const {return (this->c.begin());}
-RPN::const_it	RPN::end() const {return (this->c.end());}
-RPN::it			RPN::begin(){return (this->c.begin());}
-RPN::it			RPN::end() {return (this->c.end());}
+RPN::const_it	RPN::begin() const {return (c.begin());}
+RPN::const_it	RPN::end() const {return (c.end());}
+RPN::it			RPN::begin(){return (c.begin());}
+RPN::it			RPN::end() {return (c.end());}
 
 int	RPN::solver(void) {
 	std::cout << D_BLU "INPUT string: " RST << _input << ENDL;
