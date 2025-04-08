@@ -31,6 +31,7 @@ class PmergeMe {
 		Ctrl		_var;
 		Cnt			_input;
 		Cnt			_swap;
+		sz_t		_comparisons;
 
 	public:
 		PmergeMe(void);

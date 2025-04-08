@@ -111,7 +111,7 @@ struct	Move {
 		}
 	}
 
-	static sz_t binarySearch(Cnt &main, int value, sz_t order, sz_t bound) {
+	static sz_t binarySearch(Cnt &main, int value, sz_t order, sz_t bound, sz_t &comparisons) {
 		sz_t	low = 0, mid = 0, i = 0, j = 0;
 		it_t	it = main.begin();
 
@@ -119,6 +119,7 @@ struct	Move {
 			mid = low + (bound  - low) / 2;
 			i = (order * (mid + 1) - 1);
 			std::advance(it, i - j);
+			++comparisons;
 			if(value < *it)
 				bound = mid;
 			else
@@ -212,11 +213,12 @@ struct	Move<int*> {
 			std::memcpy(main + copied, pend + copied, leftOverElements * sizeof(int));
 	}
 
-	static sz_t binarySearch(const int *main, int value, sz_t order, sz_t bound) {
+	static sz_t binarySearch(const int *main, int value, sz_t order, sz_t bound, sz_t &comparisons) {
 		sz_t	low = 0;
 
 		while(low < bound) {
 			sz_t mid = low + (bound  - low) / 2;
+			++comparisons;
 			if(value < main[order * (mid + 1) - 1])
 				bound = mid;
 			else

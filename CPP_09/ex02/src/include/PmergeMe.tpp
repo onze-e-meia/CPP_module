@@ -32,19 +32,21 @@ inline typename Move<Cnt>::it_t	getIt(Cnt &container, sz_t i) {
 // Constructor functions
 // ------------------------
 template <typename Cnt>
-PmergeMe<Cnt>::PmergeMe(void): _isSorted(false), _id(checkTypeID()), _var(Ctrl()) {
+PmergeMe<Cnt>::PmergeMe(void):
+	_isSorted(false), _id(checkTypeID()), _var(Ctrl()), _comparisons(0) {
 	const std::vector<int>	parsedInput;
 	initVars(parsedInput);
 }
 
 template <typename Cnt>
 PmergeMe<Cnt>::PmergeMe(const std::vector<int> &parsedInput)
-	: _isSorted(false), _id(checkTypeID()), _var(Ctrl(0, getParsedSize(parsedInput))) {
+	: _isSorted(false), _id(checkTypeID()), _var(Ctrl(0, getParsedSize(parsedInput))), _comparisons(0) {
 		initVars(parsedInput);
 }
 
 template <typename Cnt>
-PmergeMe<Cnt>::PmergeMe(const PmergeMe<Cnt> &other): _isSorted(other._isSorted), _id(other._id), _var(other._var){
+PmergeMe<Cnt>::PmergeMe(const PmergeMe<Cnt> &other):
+	_isSorted(other._isSorted), _id(other._id), _var(other._var), _comparisons(0){
 	_input = Memory<Cnt>::init(_var._cntSize);
 	_swap = Memory<Cnt>::init(_var._cntSize);
 	if (_var._cntSize > 0)
@@ -58,6 +60,7 @@ PmergeMe<Cnt> &PmergeMe<Cnt>::operator=(const PmergeMe<Cnt> &other) {
 		_var = other._var;
 		_input = Memory<Cnt>::init(_var._cntSize);
 		_swap = Memory<Cnt>::init(_var._cntSize);
+		_comparisons = other._comparisons;
 		if (_var._cntSize > 0)
 			Memory<Cnt>::copyCnt(_var._cntSize, other._input, _input);
 	}
@@ -89,7 +92,8 @@ void	PmergeMe<Cnt>::startSort(void) {
 		clock_t	end = clock();
 		std::cout
 			<< "Time to sort elements with " << CNT_NAMES[_id - 1] << ": "
-			<< static_cast<double>(end - start) / CLOCKS_PER_MS << "ms" ENDL;
+			<< static_cast<double>(end - start) / CLOCKS_PER_MS << "ms"
+			<< TAB "( Number of comparisons = " << _comparisons << " )" ENDL;
 		Cnt		&main = _input;
 		_isSorted = Move<Cnt>::checkSort(main, _var._cntSize);
 	}
@@ -175,8 +179,8 @@ void	PmergeMe<Cnt>::merge(void) {
 
 	std::advance(ai, _var._order);
 	for (sz_t i = _var._pairStart, g = 0 ; g < _var._nb_pairs ; i += _var._pairSize, ++g) {
+		++_comparisons;
 		if (*bi > *ai) {
-			// std::cout << ">GO: " << *bi << " | " << *ai << ENDL;
 			Move<Cnt>::swapPair(_var, main, pend, i, first);
 			first = true;
 		}
@@ -230,11 +234,11 @@ void	PmergeMe<Cnt>::insertion(void) {
 					iBnry = boundI;
 					disp = 1;
 				} else {
-					iBnry = Move<Cnt>::binarySearch(main, value, _var._order, boundI - 1);
+					iBnry = Move<Cnt>::binarySearch(main, value, _var._order, boundI - 1, _comparisons);
 					++boundI;
 				}
 			} else {
-				iBnry = Move<Cnt>::binarySearch(main, value, _var._order, boundI - 1);
+				iBnry = Move<Cnt>::binarySearch(main, value, _var._order, boundI - 1, _comparisons);
 				if (iBnry == boundI - 1)
 					--boundI;
 			}
