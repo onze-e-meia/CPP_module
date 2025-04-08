@@ -14,6 +14,7 @@
 # define COLOR_HPP
 
 # define ENDL		"\n"
+# define DENDL		"\n\n"
 
 // Font Color
 // Standard
@@ -34,7 +35,6 @@
 # define H_MGT		"\033[38;5;13m"
 # define H_CYN		"\033[38;5;14m"
 # define H_WHT		"\033[38;5;15m"
-
 # define N_RED		"\033[38;5;173m"
 
 // Font Type

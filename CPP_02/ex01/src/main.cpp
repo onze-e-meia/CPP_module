@@ -32,7 +32,8 @@ static void	explain_2(void);
 static void	example(std::string str, float nb);
 
 int main(int argc, char **argv) {
-	system("clear");
+	if (system("clear"))
+		return (EXIT_FAILURE);
 
 	std::string	str;
 	if (argc == 2 && (str = argv[1]) == "e") {
@@ -132,7 +133,7 @@ static void explain_1(void) {
 	std::cout << ENDL N_RED
 		"The smallest increment that we can represent is 2^(-8) = 1/256." ENDL
 		"   smallest:" RST ENDL
-		"   " << PRECISION << ENDL;
+		"   " << PRECISION << DENDL
 		N_RED "So any float number that we convert will have at best that precision:" RST ENDL;
 }
 
